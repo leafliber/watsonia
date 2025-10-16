@@ -1,0 +1,35 @@
+---
+import content from '../data/content.json';
+import AnimatedCard from './AnimatedCard';
+
+const { info } = content;
+---
+
+<section id="info" class="min-h-screen flex items-center justify-center px-4 py-20">
+  <div class="max-w-6xl mx-auto w-full">
+    <div class="text-center mb-16">
+      <h2 class="text-5xl md:text-6xl font-bold mb-4 text-gradient animate-gradient">
+        {info.title}
+      </h2>
+      <div class="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+    </div>
+
+    <div class="glass rounded-3xl p-8 md:p-12 mb-12 hover:glow-effect transition-all duration-500">
+      <p class="text-xl md:text-2xl text-gray-300 leading-relaxed text-center max-w-3xl mx-auto">
+        {info.content}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {info.features.map((feature, index) => (
+        <AnimatedCard 
+          client:visible
+          icon={feature.icon}
+          title={feature.title}
+          description={feature.description}
+          delay={index * 0.2}
+        />
+      ))}
+    </div>
+  </div>
+</section>

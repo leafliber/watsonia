@@ -1,0 +1,45 @@
+---
+import content from '../data/content.json';
+
+const { footer } = content;
+---
+
+<footer class="py-12 px-4 border-t border-white/10">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="text-center md:text-left">
+        <p class="text-gray-400">
+          {footer.text}
+        </p>
+      </div>
+      
+      <div class="flex gap-6">
+        {footer.links.map((link) => (
+          <a 
+            href={link.url} 
+            class="text-gray-400 hover:text-purple-400 transition-colors duration-300"
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Back to top button -->
+    <div class="mt-8 text-center">
+      <a 
+        href="#hero" 
+        class="inline-flex items-center justify-center w-12 h-12 glass rounded-full hover:glow-effect transition-all duration-300 hover:scale-110 group"
+      >
+        <svg 
+          class="w-6 h-6 text-purple-400 group-hover:-translate-y-1 transition-transform" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>

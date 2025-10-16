@@ -1,0 +1,75 @@
+---
+import content from '../data/content.json';
+
+const { skills } = content;
+---
+
+<section id="skills" class="py-20 px-4 overflow-hidden">
+  <div class="max-w-6xl mx-auto mb-12">
+    <h2 class="text-5xl md:text-6xl font-bold text-center mb-4 text-gradient animate-gradient">
+      技能专长
+    </h2>
+    <div class="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+  </div>
+
+  <div class="relative">
+    <!-- Marquee container -->
+    <div class="marquee-container">
+      <div class="marquee-content">
+        {skills.map((skill) => (
+          <div class="marquee-item glass rounded-full px-8 py-4 mx-3 hover:glow-effect transition-all duration-300 hover:scale-110">
+            <span class="text-xl font-medium text-gradient whitespace-nowrap">
+              {skill}
+            </span>
+          </div>
+        ))}
+        {/* Duplicate for seamless loop */}
+        {skills.map((skill) => (
+          <div class="marquee-item glass rounded-full px-8 py-4 mx-3 hover:glow-effect transition-all duration-300 hover:scale-110">
+            <span class="text-xl font-medium text-gradient whitespace-nowrap">
+              {skill}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .marquee-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0;
+  }
+
+  .marquee-content {
+    display: flex;
+    animation: marquee 30s linear infinite;
+    width: fit-content;
+  }
+
+  .marquee-content:hover {
+    animation-play-state: paused;
+  }
+
+  .marquee-item {
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .marquee-content {
+      animation-duration: 20s;
+    }
+  }
+</style>

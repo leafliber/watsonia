@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import InfoAnimated from '../components/InfoAnimated.astro';
+import Skills from '../components/Skills.astro';
+import Links from '../components/Links.astro';
+import Footer from '../components/Footer.astro';
+import AnimatedCursor from '../components/AnimatedCursor';
+import ParticleBackground from '../components/ParticleBackground';
+---
+
+<Layout>
+  <AnimatedCursor client:load />
+  <ParticleBackground client:load />
+  <main class="relative">
+    <Hero />
+    <InfoAnimated />
+    <Skills />
+    <Links />
+    <Footer />
+  </main>
+</Layout>
+
+<style>
+  main {
+    scroll-behavior: smooth;
+  }
+</style>
