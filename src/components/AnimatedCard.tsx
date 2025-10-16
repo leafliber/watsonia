@@ -40,7 +40,7 @@ export default function AnimatedCard({ icon, title, description, url, delay = 0 
       className={`glass rounded-2xl p-8 relative overflow-hidden group cursor-hover ${url ? 'cursor-pointer' : ''}`}
     >
       <div 
-        className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 transition-opacity duration-300"
+        className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 transition-opacity duration-300"
         style={{ opacity: isHovered ? 1 : 0 }}
       />
 
@@ -56,11 +56,11 @@ export default function AnimatedCard({ icon, title, description, url, delay = 0 
         >
           <Icon 
             icon={icon} 
-            className="w-full h-full text-purple-400 group-hover:text-pink-400 transition-colors duration-300"
+            className="w-full h-full text-blue-300 group-hover:text-cyan-300 transition-colors duration-300 drop-shadow-[0_0_8px_rgba(103,232,249,0.5)]"
           />
         </motion.div>
 
-        <h3 className="text-2xl font-semibold mb-3 text-gradient">
+        <h3 className="text-2xl font-semibold mb-3 text-blue-300 group-hover:text-cyan-300 transition-colors duration-300">
           {title}
         </h3>
 
@@ -70,7 +70,7 @@ export default function AnimatedCard({ icon, title, description, url, delay = 0 
       </div>
 
       <div 
-        className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 rounded-bl-full transition-all duration-300"
+        className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/10 rounded-bl-full transition-all duration-300"
         style={{ 
           transform: isHovered ? 'scale(1.5)' : 'scale(1)',
           opacity: isHovered ? 0.3 : 0 

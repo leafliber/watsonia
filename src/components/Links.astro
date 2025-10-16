@@ -11,7 +11,7 @@ const { links } = content;
       <h2 class="text-5xl md:text-6xl font-bold mb-4 text-gradient animate-gradient">
         {links.title}
       </h2>
-      <div class="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+      <div class="w-20 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
     </div>
 
     <div class="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
@@ -20,17 +20,18 @@ const { links } = content;
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="glass rounded-2xl p-8 hover:glow-effect transition-all duration-500 hover:scale-105 group text-center w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] min-w-[200px]"
+          class="glass rounded-2xl p-8 hover:glow-effect transition-all duration-500 hover:scale-105 group text-center w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] min-w-[200px] relative overflow-hidden"
           style={`animation-delay: ${index * 0.1}s;`}
         >
-          <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/10 group-hover:to-cyan-500/10 transition-all duration-500"></div>
+          <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center relative z-10">
             <Icon 
               icon={link.icon}
-              className="w-full h-full text-purple-400 group-hover:text-pink-400 transition-all duration-300 group-hover:scale-110"
+              className="w-full h-full text-blue-300 group-hover:text-cyan-300 transition-all duration-300 group-hover:scale-110 drop-shadow-[0_0_8px_rgba(103,232,249,0.5)]"
               client:load
             />
           </div>
-          <h3 class="text-xl font-semibold text-gradient group-hover:animate-gradient">
+          <h3 class="text-xl font-semibold text-gray-100 group-hover:text-white transition-colors duration-300 relative z-10">
             {link.name}
           </h3>
         </a>

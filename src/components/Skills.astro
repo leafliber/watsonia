@@ -9,13 +9,14 @@ const { skills } = content;
     <h2 class="text-5xl md:text-6xl font-bold text-center mb-4 text-gradient animate-gradient">
       {skills.title}
     </h2>
-    <div class="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+    <div class="w-20 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
   </div>
 
   <div class="relative">
     <!-- Marquee container -->
     <div class="marquee-container">
-      <div class="marquee-content">
+      <div class="marquee-content" id="marquee-content">
+        {/* 第一组 */}
         {skills.items.map((skill) => (
           <div class="marquee-item glass rounded-full px-8 py-4 mx-3 hover:glow-effect transition-all duration-300 hover:scale-110 group">
             <span class="text-xl font-medium text-gray-200 group-hover:text-gradient group-hover:animate-gradient whitespace-nowrap transition-all duration-300">
@@ -23,7 +24,15 @@ const { skills } = content;
             </span>
           </div>
         ))}
-        {/* Duplicate for seamless loop */}
+        {/* 第二组 - 无缝循环 */}
+        {skills.items.map((skill) => (
+          <div class="marquee-item glass rounded-full px-8 py-4 mx-3 hover:glow-effect transition-all duration-300 hover:scale-110 group">
+            <span class="text-xl font-medium text-gray-200 group-hover:text-gradient group-hover:animate-gradient whitespace-nowrap transition-all duration-300">
+              {skill}
+            </span>
+          </div>
+        ))}
+        {/* 第三组 - 防止穿帮 */}
         {skills.items.map((skill) => (
           <div class="marquee-item glass rounded-full px-8 py-4 mx-3 hover:glow-effect transition-all duration-300 hover:scale-110 group">
             <span class="text-xl font-medium text-gray-200 group-hover:text-gradient group-hover:animate-gradient whitespace-nowrap transition-all duration-300">
@@ -36,18 +45,47 @@ const { skills } = content;
   </div>
 </section>
 
+<script>
+  // 确保动画从正确的位置开始
+  document.addEventListener('DOMContentLoaded', () => {
+    const marqueeContent = document.getElementById('marquee-content');
+    if (marqueeContent) {
+      // 强制重新启动动画，确保无缝循环
+      marqueeContent.style.animation = 'none';
+      setTimeout(() => {
+        marqueeContent.style.animation = '';
+      }, 10);
+    }
+  });
+</script>
+
 <style>
   .marquee-container {
     position: relative;
     width: 100%;
     overflow: hidden;
     padding: 20px 0;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
   }
 
   .marquee-content {
     display: flex;
     animation: marquee 30s linear infinite;
     width: fit-content;
+    will-change: transform;
   }
 
   .marquee-content:hover {
@@ -59,17 +97,31 @@ const { skills } = content;
   }
 
   @keyframes marquee {
-    0% {
+    from {
       transform: translateX(0);
     }
-    100% {
-      transform: translateX(-50%);
+    to {
+      transform: translateX(-33.333%);
     }
   }
 
   @media (max-width: 768px) {
     .marquee-content {
       animation-duration: 20s;
+    }
+  }
+
+  /* 确保在页面加载时动画已经开始 */
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee-content {
+      animation-play-state: running;
+    }
+  }
+
+  /* 减少动态效果以提升性能 */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-content {
+      animation: none;
     }
   }
 </style>

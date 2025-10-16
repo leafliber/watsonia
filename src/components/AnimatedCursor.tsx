@@ -84,18 +84,23 @@ export default function AnimatedCursor() {
       {/* 圆环 - 有缩放过渡动画 */}
       <div
         ref={cursorRef}
-        className="fixed w-8 h-8 border-2 border-purple-500 rounded-full pointer-events-none z-[9999] will-change-transform transition-transform duration-300 ease-out hidden md:block"
+        className="fixed w-8 h-8 border-2 border-cyan-400 rounded-full pointer-events-none z-[9999] will-change-transform transition-transform duration-300 ease-out hidden md:block"
         style={{ 
           left: 0, 
           top: 0,
           transitionProperty: 'transform',
+          boxShadow: '0 0 10px rgba(6, 182, 212, 0.5)',
         }}
       />
       {/* 中心点 - 无过渡，立即跟随 */}
       <div
         ref={cursorDotRef}
-        className="fixed w-2 h-2 bg-purple-500 rounded-full pointer-events-none z-[9999] will-change-transform hidden md:block"
-        style={{ left: 0, top: 0 }}
+        className="fixed w-2 h-2 bg-cyan-400 rounded-full pointer-events-none z-[9999] will-change-transform hidden md:block"
+        style={{ 
+          left: 0, 
+          top: 0,
+          boxShadow: '0 0 8px rgba(6, 182, 212, 0.8)',
+        }}
       />
     </>
   );

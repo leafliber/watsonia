@@ -22,11 +22,11 @@
       "可以去我的博客看看"
     ],
     "subtitle": "创意开发者 | AI工程师",
-    "description": "使用最新技术栈打造未来的数字体验"
+    "description": "探索通向未来的技术栈"
   },
   "info": {
     "title": "关于我",
-    "content": "我是一名充满激情的开发者，热衷于探索新技术，并将创意转化为现实。",
+    "content": "热衷于探索新技术，并将创意转化为现实",
     "features": [
       {
         "icon": "mdi:post-outline",
@@ -49,7 +49,7 @@
     ]
   },
   "skills": {
-    "title": "技能专长",
+    "title": "技能",
     "items": [
       "Docker",
       "Astro",
@@ -63,7 +63,7 @@
     ]
   },
   "links": {
-    "title": "社交链接",
+    "title": "联系我",
     "items": [
       {
         "name": "GitHub",

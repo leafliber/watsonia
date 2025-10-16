@@ -19,18 +19,18 @@ interface Orb {
   delay: number;
 }
 
-// 大型背景球体配置 - 桌面端
+// 大型背景球体配置 - 桌面端（星球主题）
 const orbsConfigDesktop: Orb[] = [
-  { id: 1, size: 500, color: 'rgb(147, 51, 234)', initialX: '25%', initialY: '25%', delay: 0 },
-  { id: 2, size: 500, color: 'rgb(59, 130, 246)', initialX: '75%', initialY: '75%', delay: 1.3 },
-  { id: 3, size: 800, color: 'rgb(236, 72, 153)', initialX: '50%', initialY: '50%', delay: 2.7 },
+  { id: 1, size: 500, color: 'rgb(30, 58, 138)', initialX: '25%', initialY: '25%', delay: 0 },      // 深蓝色星球
+  { id: 3, size: 800, color: 'rgb(55, 48, 163)', initialX: '50%', initialY: '50%', delay: 2.7 },   // 靛蓝色星球
+  { id: 2, size: 500, color: 'rgb(8, 145, 178)', initialX: '75%', initialY: '75%', delay: 1.3 },   // 青色星球
 ];
 
 // 大型背景球体配置 - 移动端（减小尺寸）
 const orbsConfigMobile: Orb[] = [
-  { id: 1, size: 100, color: 'rgb(147, 51, 234)', initialX: '25%', initialY: '25%', delay: 0 },
-  { id: 2, size: 100, color: 'rgb(59, 130, 246)', initialX: '75%', initialY: '75%', delay: 1.3 },
-  { id: 3, size: 300, color: 'rgb(236, 72, 153)', initialX: '50%', initialY: '50%', delay: 2.7 },
+  { id: 1, size: 100, color: 'rgb(30, 58, 138)', initialX: '25%', initialY: '25%', delay: 0 },      // 深蓝色星球
+  { id: 3, size: 200, color: 'rgb(55, 48, 163)', initialX: '50%', initialY: '50%', delay: 2.7 },   // 靛蓝色星球
+  { id: 2, size: 100, color: 'rgb(8, 145, 178)', initialX: '75%', initialY: '75%', delay: 1.3 },   // 青色星球
 ];
 
 // 生成小粒子
@@ -49,12 +49,13 @@ const generateParticles = (count: number): Particle[] => {
   return particles;
 };
 
-// 球体动画配置
+// 球体动画配置（星球漂浮效果）
 const getOrbAnimation = (id: number) => {
   const configs = {
-    1: { x: [0, 70, -50, 0], y: [0, -60, 50, 0], scale: [1, 1.2, 0.9, 1], opacity: [0.3, 0.5, 0.3, 0.3], duration: 20 },
-    2: { x: [0, -40, 50, 0], y: [0, 60, -50, 0], scale: [1, 0.9, 1.2, 1], opacity: [0.3, 0.4, 0.5, 0.3], duration: 25 },
-    3: { x: [0, 30, -40, 0], y: [0, -50, 60, 0], scale: [1, 1.3, 0.8, 1], opacity: [0.3, 0.5, 0.3, 0.3], duration: 22 },
+    1: { x: [0, 60, -40, 0], y: [0, -50, 40, 0], scale: [1, 1.15, 0.95, 1], opacity: [0.4, 0.6, 0.4, 0.4], duration: 25 },
+    2: { x: [0, -50, 60, 0], y: [0, 50, -40, 0], scale: [1, 0.9, 1.2, 1], opacity: [0.35, 0.55, 0.45, 0.35], duration: 28 },
+    3: { x: [0, 40, -50, 0], y: [0, -40, 50, 0], scale: [1, 1.25, 0.85, 1], opacity: [0.4, 0.6, 0.4, 0.4], duration: 30 },
+    4: { x: [0, -30, 40, 0], y: [0, 60, -30, 0], scale: [1, 1.1, 0.95, 1], opacity: [0.5, 0.7, 0.5, 0.5], duration: 23 },
   };
   return configs[id as keyof typeof configs] || configs[1];
 };
@@ -132,22 +133,25 @@ export default function ParticleBackground() {
         );
       })}
 
-      {/* 小型粒子 */}
+      {/* 小型粒子（星星效果） */}
       {particles.map((particle) => (
         <motion.div
           key={`particle-${particle.id}`}
-          className="absolute rounded-full bg-purple-500/20"
+          className="absolute rounded-full bg-cyan-400/30"
+          style={{
+            boxShadow: '0 0 8px rgba(6, 182, 212, 0.6)',
+          }}
           initial={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: particle.size,
             height: particle.size,
-            opacity: 0.2,
+            opacity: 0.3,
           }}
           animate={{
             y: [0, -30, 0],
-            opacity: [0.2, 0.4, 0.2],
-            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.7, 0.3],
+            scale: [1, 1.3, 1],
           }}
           transition={{
             duration: particle.duration,
