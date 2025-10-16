@@ -6,6 +6,7 @@ interface TypewriterProps {
   deletingSpeed?: number;
   pauseDuration?: number;
   loop?: boolean;
+  loopOnce?: boolean; // 播放完一遍后停在第一句
   showCursor?: boolean;
   cursorCharacter?: string;
   cursorBlinkDuration?: number;
@@ -19,6 +20,7 @@ export default function Typewriter({
   deletingSpeed = 50,
   pauseDuration = 1500,
   loop = true,
+  loopOnce = false,
   showCursor = true,
   cursorCharacter = '_',
   cursorBlinkDuration = 0.5,
@@ -29,6 +31,7 @@ export default function Typewriter({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [hasCompletedOnce, setHasCompletedOnce] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const texts = Array.isArray(text) ? text : [text];
@@ -37,10 +40,23 @@ export default function Typewriter({
     const currentText = texts[currentIndex];
 
     const handleTyping = () => {
+      // 如果是 loopOnce 模式且已完成一遍，停留在第一句
+      if (loopOnce && hasCompletedOnce && currentIndex === 0 && displayText === texts[0]) {
+        return;
+      }
+
       if (isPaused) {
         timeoutRef.current = setTimeout(() => {
           setIsPaused(false);
-          setIsDeleting(true);
+          // 检查是否是最后一个文本
+          const isLastText = currentIndex === texts.length - 1;
+          if (loopOnce && isLastText) {
+            // 播放完最后一个，标记为完成并返回第一个
+            setHasCompletedOnce(true);
+            setIsDeleting(true);
+          } else {
+            setIsDeleting(true);
+          }
         }, pauseDuration);
         return;
       }
@@ -52,7 +68,7 @@ export default function Typewriter({
           timeoutRef.current = setTimeout(handleTyping, typingSpeed);
         } else {
           // Finished typing
-          if (texts.length > 1 && loop) {
+          if (texts.length > 1 && (loop || (loopOnce && !hasCompletedOnce))) {
             setIsPaused(true);
             timeoutRef.current = setTimeout(handleTyping, pauseDuration);
           }
@@ -65,7 +81,14 @@ export default function Typewriter({
         } else {
           // Finished deleting
           setIsDeleting(false);
-          setCurrentIndex((prev) => (prev + 1) % texts.length);
+          const nextIndex = (currentIndex + 1) % texts.length;
+          setCurrentIndex(nextIndex);
+          
+          // 如果 loopOnce 模式且回到第一个，开始打字第一句
+          if (loopOnce && nextIndex === 0 && hasCompletedOnce) {
+            // 不再继续循环
+            return;
+          }
         }
       }
     };
@@ -77,7 +100,7 @@ export default function Typewriter({
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [displayText, currentIndex, isDeleting, isPaused, texts, typingSpeed, deletingSpeed, pauseDuration, loop]);
+  }, [displayText, currentIndex, isDeleting, isPaused, hasCompletedOnce, texts, typingSpeed, deletingSpeed, pauseDuration, loop, loopOnce]);
 
   return (
     <>
