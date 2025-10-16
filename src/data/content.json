@@ -1,42 +1,50 @@
 {
+  "site": {
+    "title": "Leafiber - Watsonia",
+    "description": "个人网站主页",
+    "lang": "zh-CN"
+  },
   "navbar": {
-    "brand": "Watsonia",
+    "brand": "Leafiber",
     "items": [
       { "name": "首页", "href": "#hero" },
       { "name": "关于", "href": "#info" },
-      { "name": "技能", "href": "#skills" },
-      { "name": "链接", "href": "#links" }
+      { "name": "链接", "href": "#links" },
+      { "name": "博客", "href": "https://blog.airo.cc" }
     ]
   },
   "hero": {
-    "title": "欢迎来到我的作品集",
+    "title": "Hi, 我是 Leafiber",
     "titles": [
-      "欢迎来到我的作品集",
-      "创造卓越的数字体验",
-      "将创意变为现实",
-      "打造未来的 Web"
+      "Hi, 我是 Leafiber",
+      "一个即将毕业的大学生",
+      "欢迎来到我的主页",
+      "可以去我的博客看看"
     ],
-    "subtitle": "创意开发者 | UI/UX 设计师",
-    "description": "使用最新技术栈打造优雅的数字体验"
+    "subtitle": "创意开发者 | AI工程师",
+    "description": "使用最新技术栈打造未来的数字体验"
   },
   "info": {
     "title": "关于我",
-    "content": "我是一名充满激情的开发者，专注于创建美观且功能强大的 Web 应用。我热衷于探索新技术，并将创意转化为现实。",
+    "content": "我是一名充满激情的开发者，热衷于探索新技术，并将创意转化为现实。",
     "features": [
       {
-        "icon": "⚡",
-        "title": "高性能",
-        "description": "优化每一个细节，确保极致的用户体验"
+        "icon": "mdi:post-outline",
+        "title": "我的博客",
+        "description": "记录学习和生活点滴",
+        "url": "https://blog.airo.cc"
       },
       {
-        "icon": "🎨",
-        "title": "精美设计",
-        "description": "注重视觉美学，打造令人印象深刻的界面"
+        "icon": "mdi:git",
+        "title": "我的Git",
+        "description": "私人的代码仓库，存放不适合公布的代码和试验项目",
+        "url": "https://gitea.com/Fiber"
       },
       {
-        "icon": "🚀",
-        "title": "现代技术",
-        "description": "使用最新的前端技术栈和最佳实践"
+        "icon": "mdi:robot-outline",
+        "title": "QQ机器人项目",
+        "description": "代号C,细节暂未公开",
+        "url": "#info"
       }
     ]
   },
@@ -61,30 +69,28 @@
       {
         "name": "GitHub",
         "url": "https://github.com",
-        "icon": "github"
+        "icon": "fa6-brands:github"
       },
       {
-        "name": "Twitter",
-        "url": "https://twitter.com",
-        "icon": "twitter"
+        "name": "bilibili",
+        "url": "https://bilibili.com",
+        "icon": "fa6-brands:bilibili"
       },
       {
         "name": "LinkedIn",
         "url": "https://linkedin.com",
-        "icon": "linkedin"
+        "icon": "fa6-brands:linkedin"
       },
       {
         "name": "Email",
         "url": "mailto:hello@example.com",
-        "icon": "email"
+        "icon": "ic:baseline-email"
       }
     ]
   },
   "footer": {
-    "text": "© 2025 Watsonia. 用 ❤️ 和 Astro 构建",
     "links": [
-      { "name": "隐私政策", "url": "#" },
-      { "name": "使用条款", "url": "#" }
+      { "name": "鲁ICP备2020046132号-3", "url": "https://beian.miit.gov.cn/" }
     ]
   }
 }

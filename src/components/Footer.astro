@@ -2,14 +2,41 @@
 import content from '../data/content.json';
 
 const { footer } = content;
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="py-12 px-4 border-t border-white/10 relative z-10">
   <div class="max-w-6xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="text-center md:text-left">
-        <p class="text-gray-400">
-          {footer.text}
+            <div class="text-center md:text-left">
+        <p class="text-gray-200">
+          © {currentYear} 
+          <a 
+            href="https://github.com/leafliber/watsonia" 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-purple-400 transition-colors duration-300"
+          >
+            Watsonia.
+          </a> 
+          <a 
+            href="https://github.com/leafliber" 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-purple-400 transition-colors duration-300"
+          >
+            Leafliber
+          </a>
+          用 
+          <a 
+            href="https://astro.build" 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-purple-400 transition-colors duration-300"
+          >
+            Astro
+          </a>
+          构建
         </p>
       </div>
       

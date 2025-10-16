@@ -1,15 +1,32 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { Icon } from '@iconify/react';
 
 interface CardProps {
   icon: string;
   title: string;
   description: string;
+  url?: string;
   delay?: number;
 }
 
-export default function AnimatedCard({ icon, title, description, delay = 0 }: CardProps) {
+export default function AnimatedCard({ icon, title, description, url, delay = 0 }: CardProps) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = () => {
+    if (url) {
+      // 判断是否是外部链接
+      if (url.startsWith('http')) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      } else {
+        // 内部锚点链接
+        const target = document.querySelector(url);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+  };
 
   return (
     <motion.div
@@ -19,7 +36,8 @@ export default function AnimatedCard({ icon, title, description, delay = 0 }: Ca
       transition={{ duration: 0.6, delay }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="glass rounded-2xl p-8 cursor-pointer relative overflow-hidden group"
+      onClick={handleClick}
+      className={`glass rounded-2xl p-8 relative overflow-hidden group cursor-hover ${url ? 'cursor-pointer' : ''}`}
     >
       {/* Hover effect background */}
       <motion.div
@@ -31,7 +49,7 @@ export default function AnimatedCard({ icon, title, description, delay = 0 }: Ca
 
       <div className="relative z-10">
         <motion.div
-          className="text-5xl mb-4"
+          className="mb-4 flex items-center justify-center w-16 h-16"
           animate={{
             y: isHovered ? [-5, 0, -5] : 0,
           }}
@@ -41,7 +59,10 @@ export default function AnimatedCard({ icon, title, description, delay = 0 }: Ca
             ease: 'easeInOut',
           }}
         >
-          {icon}
+          <Icon 
+            icon={icon} 
+            className="w-full h-full text-purple-400 group-hover:text-pink-400 transition-colors duration-300"
+          />
         </motion.div>
 
         <h3 className="text-2xl font-semibold mb-3 text-gradient">

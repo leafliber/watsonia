@@ -13,13 +13,13 @@ interface Particle {
 // 在组件外生成粒子，避免每次渲染重新计算
 const generateParticles = (): Particle[] => {
   const particles: Particle[] = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 10; i++) {
     particles.push({
       id: i,
-      x: Math.random() * 200,
-      y: Math.random() * 200,
-      size: Math.random() * 10 + 1,
-      duration: Math.random() * 10 + 10,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 20 + 1,
+      duration: Math.random() * 10 + 5,
       delay: Math.random() * 5,
     });
   }

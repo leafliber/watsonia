@@ -1,4 +1,5 @@
 ---
+import { Icon } from '@iconify/react';
 import content from '../data/content.json';
 
 const { info } = content;
@@ -21,12 +22,19 @@ const { info } = content;
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       {info.features.map((feature, index) => (
-        <div 
+        <a
+          href={feature.url}
+          target={feature.url.startsWith('http') ? '_blank' : undefined}
+          rel={feature.url.startsWith('http') ? 'noopener noreferrer' : undefined}
           class="glass rounded-2xl p-8 hover:glow-effect transition-all duration-500 hover:scale-105 group"
           style={`animation-delay: ${index * 0.2}s;`}
         >
-          <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
-            {feature.icon}
+          <div class="flex items-center justify-center w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300">
+            <Icon 
+              icon={feature.icon}
+              className="w-full h-full text-purple-400 group-hover:text-pink-400 transition-colors duration-300"
+              client:load
+            />
           </div>
           <h3 class="text-2xl font-semibold mb-3 text-gradient">
             {feature.title}
@@ -34,7 +42,7 @@ const { info } = content;
           <p class="text-gray-400 leading-relaxed">
             {feature.description}
           </p>
-        </div>
+        </a>
       ))}
     </div>
   </div>
