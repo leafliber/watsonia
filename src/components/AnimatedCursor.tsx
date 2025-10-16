@@ -19,10 +19,12 @@ export default function AnimatedCursor() {
     };
 
     const handleMouseEnter = () => {
+      cursor.style.transition = 'none';
       cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
     };
 
     const handleMouseLeave = () => {
+      cursor.style.transition = 'none';
       cursor.style.transform = 'translate(-50%, -50%) scale(1)';
     };
 
@@ -47,7 +49,7 @@ export default function AnimatedCursor() {
     <>
       <div
         ref={cursorRef}
-        className="fixed w-8 h-8 border-2 border-purple-500 rounded-full pointer-events-none z-[9999] transition-transform duration-200"
+        className="fixed w-8 h-8 border-2 border-purple-500 rounded-full pointer-events-none z-[9999]"
         style={{ transform: 'translate(-50%, -50%)' }}
       />
       <div

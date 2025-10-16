@@ -1,12 +1,7 @@
 ---
 import content from '../data/content.json';
 
-const navItems = [
-  { name: '首页', href: '#hero' },
-  { name: '关于', href: '#info' },
-  { name: '技能', href: '#skills' },
-  { name: '链接', href: '#links' },
-];
+const { navbar } = content;
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-6 navbar-container">
@@ -14,12 +9,12 @@ const navItems = [
     <div class="glass-navbar rounded-full px-8 py-4 flex items-center justify-between relative isolate navbar-expand">
       <!-- Logo/Brand -->
       <a href="#hero" class="text-xl font-bold text-gradient hover:scale-105 transition-transform duration-300 relative z-10 navbar-logo">
-        Watsonia
+        {navbar.brand}
       </a>
 
       <!-- Desktop Navigation -->
       <ul class="hidden md:flex items-center gap-8 relative z-10 navbar-menu">
-        {navItems.map((item, index) => (
+        {navbar.items.map((item, index) => (
           <li class="navbar-item" style={`animation-delay: ${0.5 + index * 0.1}s`}>
             <a 
               href={item.href}
@@ -50,7 +45,7 @@ const navItems = [
       class="hidden md:hidden mt-3 glass-navbar rounded-3xl px-6 py-4 animate-slide-down relative isolate"
     >
       <ul class="flex flex-col gap-4">
-        {navItems.map((item) => (
+        {navbar.items.map((item) => (
           <li>
             <a 
               href={item.href}

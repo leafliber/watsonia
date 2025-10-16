@@ -19,6 +19,12 @@
     overflow-x: hidden;
     position: relative;
     background: transparent;
+    cursor: none;
+  }
+
+  /* 隐藏所有元素的默认光标 */
+  * {
+    cursor: none !important;
   }
 
   /* 固定背景层 */
