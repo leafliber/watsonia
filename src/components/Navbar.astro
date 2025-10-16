@@ -1,0 +1,152 @@
+---
+import content from '../data/content.json';
+
+const navItems = [
+  { name: '首页', href: '#hero' },
+  { name: '关于', href: '#info' },
+  { name: '技能', href: '#skills' },
+  { name: '链接', href: '#links' },
+];
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 px-4 py-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="glass-navbar rounded-full px-8 py-4 flex items-center justify-between relative isolate">
+      <!-- Logo/Brand -->
+      <a href="#hero" class="text-xl font-bold text-gradient hover:scale-105 transition-transform duration-300 relative z-10">
+        Watsonia
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-8 relative z-10">
+        {navItems.map((item) => (
+          <li>
+            <a 
+              href={item.href}
+              class="text-gray-300 hover:text-white transition-colors duration-300 relative group"
+            >
+              {item.name}
+              <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        id="mobile-menu-button"
+        class="md:hidden text-gray-300 hover:text-white transition-colors p-2 relative z-10"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div 
+      id="mobile-menu"
+      class="hidden md:hidden mt-3 glass-navbar rounded-3xl px-6 py-4 animate-slide-down relative isolate"
+    >
+      <ul class="flex flex-col gap-4">
+        {navItems.map((item) => (
+          <li>
+            <a 
+              href={item.href}
+              class="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300"
+            >
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu toggle
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  menuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Close mobile menu when clicking a link
+  const mobileLinks = mobileMenu?.querySelectorAll('a');
+  mobileLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
+  });
+
+  // Smooth scroll for all nav links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e: Event) {
+      e.preventDefault();
+      const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
+      const target = href ? document.querySelector(href) : null;
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // Add navbar background on scroll
+  let lastScroll = 0;
+  const nav = document.querySelector('nav');
+  
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 100) {
+      nav?.classList.add('scrolled');
+    } else {
+      nav?.classList.remove('scrolled');
+    }
+    
+    lastScroll = currentScroll;
+  });
+</script>
+
+<style>
+  nav {
+    transition: all 0.3s ease;
+  }
+
+  nav.scrolled .glass-navbar {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* Ensure blur is contained within rounded borders */
+  .glass-navbar {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .glass-navbar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    backdrop-filter: inherit;
+    -webkit-backdrop-filter: inherit;
+    z-index: -1;
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Offset for fixed navbar */
+  section {
+    scroll-margin-top: 100px;
+  }
+</style>
