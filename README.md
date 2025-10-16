@@ -1,4 +1,4 @@
-# Watsonia - 现代化创意作品集
+# Watsonia
 
 一个基于 Astro 框架构建的个人主页，具有炫酷动画效果和响应式设计，支持一键部署到 Cloudflare。
 
