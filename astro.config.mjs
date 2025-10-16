@@ -4,7 +4,7 @@ import tailwind from '@astrojs/tailwind';
 import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
-  output: 'server',
+  output: 'static',
   adapter: cloudflare({
     mode: 'directory',
     imageService: 'compile',
