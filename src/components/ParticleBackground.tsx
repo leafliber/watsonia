@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 interface Particle {
   id: number;
@@ -10,27 +10,25 @@ interface Particle {
   delay: number;
 }
 
+// 在组件外生成粒子，避免每次渲染重新计算
+const generateParticles = (): Particle[] => {
+  const particles: Particle[] = [];
+  for (let i = 0; i < 20; i++) {
+    particles.push({
+      id: i,
+      x: Math.random() * 200,
+      y: Math.random() * 200,
+      size: Math.random() * 10 + 1,
+      duration: Math.random() * 10 + 10,
+      delay: Math.random() * 5,
+    });
+  }
+  return particles;
+};
+
 export default function ParticleBackground() {
-  const [particles, setParticles] = useState<Particle[]>([]);
-
-  useEffect(() => {
-    const generateParticles = () => {
-      const newParticles: Particle[] = [];
-      for (let i = 0; i < 50; i++) {
-        newParticles.push({
-          id: i,
-          x: Math.random() * 100,
-          y: Math.random() * 100,
-          size: Math.random() * 4 + 1,
-          duration: Math.random() * 10 + 10,
-          delay: Math.random() * 5,
-        });
-      }
-      setParticles(newParticles);
-    };
-
-    generateParticles();
-  }, []);
+  // 使用 useMemo 缓存粒子数据
+  const particles = useMemo(() => generateParticles(), []);
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">

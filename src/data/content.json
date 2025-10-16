@@ -40,18 +40,21 @@
       }
     ]
   },
-  "skills": [
-    "React",
-    "Astro",
-    "TypeScript",
-    "Tailwind CSS",
-    "Framer Motion",
-    "Next.js",
-    "Node.js",
-    "GraphQL",
-    "Vue.js",
-    "Three.js"
-  ],
+  "skills": {
+    "title": "技能专长",
+    "items": [
+      "React",
+      "Astro",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Next.js",
+      "Node.js",
+      "GraphQL",
+      "Vue.js",
+      "Three.js"
+    ]
+  },
   "links": {
     "title": "快速链接",
     "items": [

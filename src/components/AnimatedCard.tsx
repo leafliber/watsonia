@@ -48,7 +48,7 @@ export default function AnimatedCard({ icon, title, description, delay = 0 }: Ca
           {title}
         </h3>
 
-        <p className="text-gray-400 leading-relaxed">
+        <p className="text-gray-200 leading-relaxed">
           {description}
         </p>
       </div>

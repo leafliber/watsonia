@@ -1,18 +1,14 @@
 ---
 import content from '../data/content.json';
 import Typewriter from './Typewriter';
+import BackgroundOrbs from './BackgroundOrbs';
 
 const { hero } = content;
 ---
 
 <section id="hero" class="min-h-screen flex items-center justify-center px-4 py-20 relative">
-  <!-- Animated background elements - Fixed position -->
-  <div class="fixed inset-0 overflow-hidden pointer-events-none" style="z-index: -5;">
-    <div class="absolute w-[500px] h-[500px] bg-purple-500/30 rounded-full blur-3xl animate-float" style="top: 25%; left: 25%; margin-left: -250px; margin-top: -250px; z-index: 1;"></div>
-    <div class="absolute w-[500px] h-[500px] bg-blue-500/30 rounded-full blur-3xl animate-float" style="bottom: 25%; right: 25%; margin-right: -250px; margin-bottom: -250px; animation-delay: 1s; z-index: 1;"></div>
-    <div class="absolute w-[700px] h-[700px] bg-pink-500/20 rounded-full blur-3xl animate-float" style="top: 50%; left: 50%; margin-left: -350px; margin-top: -350px; animation-delay: 2s; z-index: 3;"></div>
-    <div class="absolute w-[400px] h-[400px] bg-cyan-500/25 rounded-full blur-3xl animate-float" style="top: 33.33%; right: 33.33%; margin-right: -200px; margin-top: -200px; animation-delay: 1.5s; z-index: 1;"></div>
-  </div>
+  <!-- Animated background orbs -->
+  <BackgroundOrbs client:load />
 
   <div class="max-w-5xl mx-auto text-center relative z-10">
     <div class="animate-slide-down">
@@ -40,7 +36,7 @@ const { hero } = content;
     </div>
     
     <div class="animate-slide-up" style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;">
-      <p class="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+      <p class="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
         {hero.description}
       </p>
     </div>

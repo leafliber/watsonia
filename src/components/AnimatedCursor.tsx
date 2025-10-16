@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 
 export default function AnimatedCursor() {
@@ -11,24 +10,36 @@ export default function AnimatedCursor() {
     
     if (!cursor || !cursorDot) return;
 
+    // 使用 RAF 优化性能
+    let rafId: number;
+    let currentX = 0;
+    let currentY = 0;
+
     const moveCursor = (e: MouseEvent) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      cursorDot.style.left = e.clientX + 'px';
-      cursorDot.style.top = e.clientY + 'px';
+      currentX = e.clientX;
+      currentY = e.clientY;
+      
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          // 使用 transform 替代 left/top，性能更好
+          cursor.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%)`;
+          cursorDot.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%)`;
+          rafId = 0;
+        });
+      }
     };
 
     const handleMouseEnter = () => {
-      cursor.style.transition = 'none';
-      cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+      cursor.style.transition = 'transform 0.2s ease';
+      cursor.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%) scale(1.5)`;
     };
 
     const handleMouseLeave = () => {
-      cursor.style.transition = 'none';
-      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      cursor.style.transition = 'transform 0.2s ease';
+      cursor.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%) scale(1)`;
     };
 
-    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
     
     const interactiveElements = document.querySelectorAll('a, button');
     interactiveElements.forEach((el) => {
@@ -38,6 +49,9 @@ export default function AnimatedCursor() {
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
       interactiveElements.forEach((el) => {
         el.removeEventListener('mouseenter', handleMouseEnter);
         el.removeEventListener('mouseleave', handleMouseLeave);
@@ -49,13 +63,13 @@ export default function AnimatedCursor() {
     <>
       <div
         ref={cursorRef}
-        className="fixed w-8 h-8 border-2 border-purple-500 rounded-full pointer-events-none z-[9999]"
-        style={{ transform: 'translate(-50%, -50%)' }}
+        className="fixed w-8 h-8 border-2 border-purple-500 rounded-full pointer-events-none z-[9999] will-change-transform"
+        style={{ left: 0, top: 0 }}
       />
       <div
         ref={cursorDotRef}
-        className="fixed w-2 h-2 bg-purple-500 rounded-full pointer-events-none z-[9999]"
-        style={{ transform: 'translate(-50%, -50%)' }}
+        className="fixed w-2 h-2 bg-purple-500 rounded-full pointer-events-none z-[9999] will-change-transform"
+        style={{ left: 0, top: 0 }}
       />
     </>
   );

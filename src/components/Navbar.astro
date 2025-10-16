@@ -18,7 +18,7 @@ const { navbar } = content;
           <li class="navbar-item" style={`animation-delay: ${0.5 + index * 0.1}s`}>
             <a 
               href={item.href}
-              class="text-gray-300 hover:text-white transition-colors duration-300 relative group"
+              class="text-gray-200 hover:text-white transition-colors duration-300 relative group"
             >
               {item.name}
               <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></span>
@@ -30,7 +30,7 @@ const { navbar } = content;
       <!-- Mobile Menu Button -->
       <button 
         id="mobile-menu-button"
-        class="md:hidden text-gray-300 hover:text-white transition-colors p-2 relative z-10 navbar-logo"
+        class="md:hidden text-gray-200 hover:text-white transition-colors p-2 relative z-10 navbar-logo"
         aria-label="Toggle menu"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,7 +49,7 @@ const { navbar } = content;
           <li>
             <a 
               href={item.href}
-              class="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300"
+              class="block text-gray-200 hover:text-white hover:translate-x-2 transition-all duration-300"
             >
               {item.name}
             </a>
