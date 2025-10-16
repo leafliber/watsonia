@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 interface Particle {
   id: number;
@@ -19,17 +19,24 @@ interface Orb {
   delay: number;
 }
 
-// 大型背景球体配置
-const orbsConfig: Orb[] = [
+// 大型背景球体配置 - 桌面端
+const orbsConfigDesktop: Orb[] = [
   { id: 1, size: 500, color: 'rgb(147, 51, 234)', initialX: '25%', initialY: '25%', delay: 0 },
   { id: 2, size: 500, color: 'rgb(59, 130, 246)', initialX: '75%', initialY: '75%', delay: 1.3 },
   { id: 3, size: 800, color: 'rgb(236, 72, 153)', initialX: '50%', initialY: '50%', delay: 2.7 },
 ];
 
+// 大型背景球体配置 - 移动端（减小尺寸）
+const orbsConfigMobile: Orb[] = [
+  { id: 1, size: 100, color: 'rgb(147, 51, 234)', initialX: '25%', initialY: '25%', delay: 0 },
+  { id: 2, size: 100, color: 'rgb(59, 130, 246)', initialX: '75%', initialY: '75%', delay: 1.3 },
+  { id: 3, size: 300, color: 'rgb(236, 72, 153)', initialX: '50%', initialY: '50%', delay: 2.7 },
+];
+
 // 生成小粒子
-const generateParticles = (): Particle[] => {
+const generateParticles = (count: number): Particle[] => {
   const particles: Particle[] = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < count; i++) {
     particles.push({
       id: i,
       x: Math.random() * 100,
@@ -61,10 +68,31 @@ const adjustColor = (color: string, factor: number): string => {
 };
 
 export default function ParticleBackground() {
-  const particles = useMemo(() => generateParticles(), []);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    // 检测是否为移动设备
+    const checkMobile = () => {
+      const isMobileDevice = window.matchMedia('(max-width: 768px)').matches || 
+                             'ontouchstart' in window;
+      setIsMobile(isMobileDevice);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // 根据设备类型选择配置
+  const orbsConfig = isMobile ? orbsConfigMobile : orbsConfigDesktop;
+  const particleCount = isMobile ? 5 : 10; // 移动端减少粒子数量
+  const particles = useMemo(() => generateParticles(particleCount), [particleCount]);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div 
+      className="fixed top-0 left-0 w-full overflow-hidden pointer-events-none z-0"
+      style={{ height: '100dvh' }}
+    >
       {/* 大型背景球体 */}
       {orbsConfig.map((orb) => {
         const anim = getOrbAnimation(orb.id);

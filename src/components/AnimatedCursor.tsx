@@ -4,8 +4,29 @@ export default function AnimatedCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // 检测是否为移动设备
+    const checkMobile = () => {
+      const mobile = window.matchMedia('(max-width: 768px)').matches || 
+                     'ontouchstart' in window || 
+                     navigator.maxTouchPoints > 0;
+      setIsMobile(mobile);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  useEffect(() => {
+    // 如果是移动设备，不显示自定义光标
+    if (isMobile) return;
+
     const cursor = cursorRef.current;
     const cursorDot = cursorDotRef.current;
     
@@ -53,14 +74,17 @@ export default function AnimatedCursor() {
       window.removeEventListener('mousemove', moveCursor);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [isHovering]);
+  }, [isHovering, isMobile]);
+
+  // 移动设备不显示自定义光标
+  if (isMobile) return null;
 
   return (
     <>
       {/* 圆环 - 有缩放过渡动画 */}
       <div
         ref={cursorRef}
-        className="fixed w-8 h-8 border-2 border-purple-500 rounded-full pointer-events-none z-[9999] will-change-transform transition-transform duration-300 ease-out"
+        className="fixed w-8 h-8 border-2 border-purple-500 rounded-full pointer-events-none z-[9999] will-change-transform transition-transform duration-300 ease-out hidden md:block"
         style={{ 
           left: 0, 
           top: 0,
@@ -70,7 +94,7 @@ export default function AnimatedCursor() {
       {/* 中心点 - 无过渡，立即跟随 */}
       <div
         ref={cursorDotRef}
-        className="fixed w-2 h-2 bg-purple-500 rounded-full pointer-events-none z-[9999] will-change-transform"
+        className="fixed w-2 h-2 bg-purple-500 rounded-full pointer-events-none z-[9999] will-change-transform hidden md:block"
         style={{ left: 0, top: 0 }}
       />
     </>
