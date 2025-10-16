@@ -1,4 +1,13 @@
 {
+  "navbar": {
+    "brand": "Watsonia",
+    "items": [
+      { "name": "首页", "href": "#hero" },
+      { "name": "关于", "href": "#info" },
+      { "name": "技能", "href": "#skills" },
+      { "name": "链接", "href": "#links" }
+    ]
+  },
   "hero": {
     "title": "欢迎来到我的作品集",
     "titles": [
