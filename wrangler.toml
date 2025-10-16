@@ -1,10 +1,14 @@
 name = "watsonia"
+main = "dist/_worker.js"
 compatibility_date = "2024-09-23"
-pages_build_output_dir = "./dist"
+
+# Assets
+[site]
+bucket = "./dist"
 
 # 如果需要自定义域名，取消注释以下行
 # routes = [
-#   { pattern = "example.com", custom_domain = true }
+#   { pattern = "example.com" }
 # ]
 
 # 环境变量（如果需要）
