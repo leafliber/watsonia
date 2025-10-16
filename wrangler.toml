@@ -1,0 +1,17 @@
+name = "watsonia"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "./dist"
+
+# 如果需要自定义域名，取消注释以下行
+# routes = [
+#   { pattern = "example.com", custom_domain = true }
+# ]
+
+# 环境变量（如果需要）
+# [vars]
+# MY_VARIABLE = "production_value"
+
+# 开发环境配置
+[env.development]
+# [env.development.vars]
+# MY_VARIABLE = "development_value"
