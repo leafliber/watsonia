@@ -93,7 +93,6 @@ const { navbar } = content;
   });
 
   // Add navbar background on scroll
-  let lastScroll = 0;
   const nav = document.querySelector('nav');
   
   window.addEventListener('scroll', () => {
@@ -104,9 +103,7 @@ const { navbar } = content;
     } else {
       nav?.classList.remove('scrolled');
     }
-    
-    lastScroll = currentScroll;
-  });
+  }, { passive: true });
 </script>
 
 <style>
@@ -118,24 +115,6 @@ const { navbar } = content;
     background: rgba(255, 255, 255, 0.15);
   }
 
-  /* Ensure blur is contained within rounded borders */
-  .glass-navbar {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .glass-navbar::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: inherit;
-    backdrop-filter: inherit;
-    -webkit-backdrop-filter: inherit;
-    z-index: -1;
-  }
-
-  /* Navbar expand animation from center */
   .navbar-expand {
     animation: expandFromCenter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     transform-origin: center;
@@ -155,13 +134,11 @@ const { navbar } = content;
     }
   }
 
-  /* Logo fade in */
   .navbar-logo {
     animation: fadeIn 0.4s ease-out 0.3s forwards;
     opacity: 0;
   }
 
-  /* Menu items fade in */
   .navbar-menu {
     animation: fadeIn 0.4s ease-out 0.4s forwards;
     opacity: 0;
@@ -170,15 +147,6 @@ const { navbar } = content;
   .navbar-item {
     animation: fadeInUp 0.4s ease-out forwards;
     opacity: 0;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
   }
 
   @keyframes fadeInUp {
@@ -192,12 +160,6 @@ const { navbar } = content;
     }
   }
 
-  /* Smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Offset for fixed navbar */
   section {
     scroll-margin-top: 100px;
   }

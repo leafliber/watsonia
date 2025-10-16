@@ -3,10 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --color-primary: 147 51 234;
-    --color-secondary: 59 130 246;
-    --color-accent: 236 72 153;
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
@@ -66,6 +64,59 @@
   .glow-effect {
     @apply shadow-[0_0_15px_rgba(147,51,234,0.5)];
   }
+}
+
+/* Animations */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out;
 }
 
 /* Scrollbar Styles */

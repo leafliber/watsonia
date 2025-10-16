@@ -39,20 +39,15 @@ export default function AnimatedCard({ icon, title, description, url, delay = 0 
       onClick={handleClick}
       className={`glass rounded-2xl p-8 relative overflow-hidden group cursor-hover ${url ? 'cursor-pointer' : ''}`}
     >
-      {/* Hover effect background */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
+      <div 
+        className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 transition-opacity duration-300"
+        style={{ opacity: isHovered ? 1 : 0 }}
       />
 
       <div className="relative z-10">
         <motion.div
           className="mb-4 flex items-center justify-center w-16 h-16"
-          animate={{
-            y: isHovered ? [-5, 0, -5] : 0,
-          }}
+          animate={{ y: isHovered ? [-5, 0, -5] : 0 }}
           transition={{
             duration: 0.6,
             repeat: isHovered ? Infinity : 0,
@@ -74,14 +69,12 @@ export default function AnimatedCard({ icon, title, description, url, delay = 0 
         </p>
       </div>
 
-      {/* Corner decoration */}
-      <motion.div
-        className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 rounded-bl-full"
-        animate={{
-          scale: isHovered ? 1.5 : 1,
-          opacity: isHovered ? 0.3 : 0,
+      <div 
+        className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 rounded-bl-full transition-all duration-300"
+        style={{ 
+          transform: isHovered ? 'scale(1.5)' : 'scale(1)',
+          opacity: isHovered ? 0.3 : 0 
         }}
-        transition={{ duration: 0.3 }}
       />
     </motion.div>
   );
