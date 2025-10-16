@@ -7,7 +7,7 @@ export default {
         'fade-in': 'fadeIn 0.8s ease-in-out',
         'slide-up': 'slideUp 0.6s ease-out',
         'slide-down': 'slideDown 0.6s ease-out',
-        'float': 'float 6s ease-in-out infinite',
+        'float': 'float 8s ease-in-out infinite',
         'glow': 'glow 2s ease-in-out infinite alternate',
         'gradient': 'gradient 8s linear infinite',
       },
@@ -25,9 +25,9 @@ export default {
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         float: {
-          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
-          '33%': { transform: 'translate(30px, -40px) scale(1.05)' },
-          '66%': { transform: 'translate(-30px, -30px) scale(0.95)' },
+          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)', opacity: '1' },
+          '33%': { transform: 'translate(60px, -80px) scale(1.15)', opacity: '0.7' },
+          '66%': { transform: 'translate(-60px, -60px) scale(0.85)', opacity: '0.8' },
         },
         glow: {
           '0%': { 

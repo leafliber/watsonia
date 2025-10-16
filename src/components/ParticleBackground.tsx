@@ -38,11 +38,13 @@ export default function ParticleBackground() {
         <motion.div
           key={particle.id}
           className="absolute rounded-full bg-purple-500/20"
-          style={{
+          initial={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: particle.size,
             height: particle.size,
+            opacity: 0.2,
+            scale: 1,
           }}
           animate={{
             y: [0, -30, 0],
