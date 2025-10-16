@@ -51,39 +51,33 @@
   "skills": {
     "title": "技能专长",
     "items": [
-      "React",
+      "Docker",
       "Astro",
-      "TypeScript",
-      "Tailwind CSS",
-      "Framer Motion",
-      "Next.js",
+      "Verilog",
+      "Python",
+      "Rust",
+      "React",
       "Node.js",
-      "GraphQL",
-      "Vue.js",
-      "Three.js"
+      "SV",
+      "Prompt"
     ]
   },
   "links": {
-    "title": "快速链接",
+    "title": "社交链接",
     "items": [
       {
         "name": "GitHub",
-        "url": "https://github.com",
+        "url": "https://github.com/leafliber",
         "icon": "fa6-brands:github"
       },
       {
-        "name": "bilibili",
-        "url": "https://bilibili.com",
+        "name": "Bilibili",
+        "url": "https://bilibili.com/",
         "icon": "fa6-brands:bilibili"
       },
       {
-        "name": "LinkedIn",
-        "url": "https://linkedin.com",
-        "icon": "fa6-brands:linkedin"
-      },
-      {
         "name": "Email",
-        "url": "mailto:hello@example.com",
+        "url": "mailto:leaf@airo.cc",
         "icon": "ic:baseline-email"
       }
     ]

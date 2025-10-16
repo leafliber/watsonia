@@ -14,13 +14,13 @@ const { links } = content;
       <div class="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
       {links.items.map((link, index) => (
         <a
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="glass rounded-2xl p-8 hover:glow-effect transition-all duration-500 hover:scale-105 group text-center"
+          class="glass rounded-2xl p-8 hover:glow-effect transition-all duration-500 hover:scale-105 group text-center w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] min-w-[200px]"
           style={`animation-delay: ${index * 0.1}s;`}
         >
           <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
