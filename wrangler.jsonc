@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "watsonia",
+  "compatibility_date": "2025-10-16",
+  "assets": {
+    "directory": "./dist"
+  }
+}
