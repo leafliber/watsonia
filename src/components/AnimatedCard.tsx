@@ -33,10 +33,13 @@ export default function AnimatedCard({ icon, title, description, delay = 0 }: Ca
         <motion.div
           className="text-5xl mb-4"
           animate={{
-            scale: isHovered ? 1.2 : 1,
-            rotate: isHovered ? 10 : 0,
+            y: isHovered ? [-5, 0, -5] : 0,
           }}
-          transition={{ type: 'spring', stiffness: 300 }}
+          transition={{
+            duration: 0.6,
+            repeat: isHovered ? Infinity : 0,
+            ease: 'easeInOut',
+          }}
         >
           {icon}
         </motion.div>

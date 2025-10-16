@@ -1,5 +1,6 @@
 ---
 import content from '../data/content.json';
+import Typewriter from './Typewriter';
 
 const { hero } = content;
 ---
@@ -14,8 +15,19 @@ const { hero } = content;
 
   <div class="max-w-5xl mx-auto text-center relative z-10">
     <div class="animate-slide-down">
-      <h1 class="text-6xl md:text-8xl font-bold mb-6 text-gradient animate-gradient">
-        {hero.title}
+      <h1 class="text-6xl md:text-8xl font-bold mb-6 min-h-[120px] md:min-h-[180px] flex items-center justify-center">
+        <Typewriter 
+          client:load
+          text={hero.titles || [hero.title]}
+          typingSpeed={80}
+          deletingSpeed={50}
+          pauseDuration={2000}
+          loop={true}
+          showCursor={true}
+          cursorCharacter="_"
+          cursorBlinkDuration={0.7}
+          className="text-gradient animate-gradient"
+        />
       </h1>
     </div>
     
@@ -39,13 +51,6 @@ const { hero } = content;
         <span class="text-gradient">探索更多</span>
         <span class="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
       </a>
-    </div>
-
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-      <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-      </svg>
     </div>
   </div>
 </section>
