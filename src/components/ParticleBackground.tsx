@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import { useMemo, useState, useEffect } from 'react';
 
 interface Particle {
@@ -54,6 +54,7 @@ const getOrbAnimation = (id: number) => {
 
 export default function ParticleBackground() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const maskControls = useAnimation();
   
   useEffect(() => {
     // 检测是否为移动设备
@@ -66,6 +67,25 @@ export default function ParticleBackground() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // 移动端遮罩入场动画与后续循环控制
+  useEffect(() => {
+    if (!isMobile) return;
+
+    let mounted = true;
+
+    // 先快速入场（淡入 + 放大），然后进入循环呼吸
+    (async () => {
+      await maskControls.start({ opacity: 0, transition: { duration: 0 } });
+      if (!mounted) return;
+      await maskControls.start({ opacity: 0.70, transition: { duration: 0.6, ease: 'easeOut' } });
+      if (!mounted) return;
+      // 切换到循环呼吸动画
+      maskControls.start({ opacity: [0.70, 1, 0.70], transition: { duration: 6, repeat: Infinity, ease: 'easeInOut' } });
+    })();
+
+    return () => { mounted = false; };
+  }, [isMobile, maskControls]);
 
   // 根据设备类型选择配置
   const orbsConfig = orbsConfigDesktop;
@@ -90,15 +110,8 @@ export default function ParticleBackground() {
             style={{
               background: 'radial-gradient(circle at 50% 50%, rgba(75, 68, 203, 0.8) 0%, rgba(50, 88, 168, 0.65) 35%, rgba(28, 175, 208, 0.5) 60%, transparent 90%)',
             }}
-            initial={{ opacity: 0.85 }}
-            animate={{ 
-              opacity: [0.85, 1, 0.85],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
+            initial={{ opacity: 0 }}
+            animate={maskControls}
           />
         </div>
       )}
