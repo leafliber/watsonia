@@ -55,6 +55,9 @@ const getOrbAnimation = (id: number) => {
 export default function ParticleBackground() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const maskControls = useAnimation();
+  const orb1Controls = useAnimation();
+  const orb2Controls = useAnimation();
+  const orb3Controls = useAnimation();
   
   useEffect(() => {
     // 检测是否为移动设备
@@ -87,6 +90,31 @@ export default function ParticleBackground() {
     return () => { mounted = false; };
   }, [isMobile, maskControls]);
 
+  // 桌面端球体入场动画
+  useEffect(() => {
+    if (isMobile !== false) return;
+
+    const animateOrb = async (controls: any, orbId: number) => {
+      const anim = getOrbAnimation(orbId);
+      // 入场动画：淡入 + 放大
+      await controls.start({
+        opacity: anim.opacity[0],
+        scale: 1,
+        transition: { duration: 1.2, ease: 'easeOut' }
+      });
+      // 切换到循环闪烁
+      controls.start({
+        opacity: anim.opacity,
+        transition: { duration: anim.duration, repeat: Infinity, ease: 'easeInOut' }
+      });
+    };
+
+    // 依次启动各球体入场（带延迟）
+    setTimeout(() => animateOrb(orb1Controls, 1), 2700);
+    setTimeout(() => animateOrb(orb3Controls, 3), 0);
+    setTimeout(() => animateOrb(orb2Controls, 2), 1300);
+  }, [isMobile, orb1Controls, orb2Controls, orb3Controls]);
+
   // 根据设备类型选择配置
   const orbsConfig = orbsConfigDesktop;
   const particleCount = isMobile ? 5 : 10; // 移动端减少粒子数量
@@ -118,7 +146,7 @@ export default function ParticleBackground() {
 
       {/* 大型背景球体 - 仅在桌面端显示（优化版：固定位置，仅闪烁） */}
       {!isMobile && orbsConfig.map((orb) => {
-        const anim = getOrbAnimation(orb.id);
+        const controls = orb.id === 1 ? orb1Controls : orb.id === 2 ? orb2Controls : orb3Controls;
         return (
           <motion.div
             key={`orb-${orb.id}`}
@@ -132,16 +160,8 @@ export default function ParticleBackground() {
               marginTop: -orb.size / 2,
               backgroundColor: orb.color,
             }}
-            initial={{ opacity: anim.opacity[0] }}
-            animate={{
-              opacity: anim.opacity,
-            }}
-            transition={{
-              duration: anim.duration,
-              delay: orb.delay,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={controls}
           />
         );
       })}
