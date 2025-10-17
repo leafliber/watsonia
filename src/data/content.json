@@ -38,7 +38,7 @@
         "icon": "mdi:git",
         "title": "我的Git",
         "description": "私人的代码仓库，存放不适合公布的代码和试验项目",
-        "url": "https://gitea.com/Fiber"
+        "url": "https://gitea.airo.cc/Fiber"
       },
       {
         "icon": "mdi:robot-outline",
