@@ -26,13 +26,6 @@ const orbsConfigDesktop: Orb[] = [
   { id: 2, size: 500, color: 'rgb(8, 145, 178)', initialX: '75%', initialY: '75%', delay: 1.3 },   // 青色星球
 ];
 
-// 大型背景球体配置 - 移动端（减小尺寸）
-const orbsConfigMobile: Orb[] = [
-  { id: 1, size: 100, color: 'rgb(30, 58, 138)', initialX: '25%', initialY: '25%', delay: 0 },      // 深蓝色星球
-  { id: 3, size: 200, color: 'rgb(55, 48, 163)', initialX: '50%', initialY: '50%', delay: 2.7 },   // 靛蓝色星球
-  { id: 2, size: 100, color: 'rgb(8, 145, 178)', initialX: '75%', initialY: '75%', delay: 1.3 },   // 青色星球
-];
-
 // 生成小粒子
 const generateParticles = (count: number): Particle[] => {
   const particles: Particle[] = [];
@@ -69,13 +62,12 @@ const adjustColor = (color: string, factor: number): string => {
 };
 
 export default function ParticleBackground() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   
   useEffect(() => {
     // 检测是否为移动设备
     const checkMobile = () => {
-      const isMobileDevice = window.matchMedia('(max-width: 768px)').matches || 
-                             'ontouchstart' in window;
+      const isMobileDevice = window.matchMedia('(max-width: 768px)').matches;
       setIsMobile(isMobileDevice);
     };
     
@@ -85,17 +77,43 @@ export default function ParticleBackground() {
   }, []);
 
   // 根据设备类型选择配置
-  const orbsConfig = isMobile ? orbsConfigMobile : orbsConfigDesktop;
+  const orbsConfig = orbsConfigDesktop;
   const particleCount = isMobile ? 5 : 10; // 移动端减少粒子数量
   const particles = useMemo(() => generateParticles(particleCount), [particleCount]);
+
+  // 如果还没检测到设备类型，不渲染任何内容避免闪烁
+  if (isMobile === null) {
+    return null;
+  }
 
   return (
     <div 
       className="fixed top-0 left-0 w-full overflow-hidden pointer-events-none z-0"
       style={{ height: '100dvh' }}
     >
-      {/* 大型背景球体 */}
-      {orbsConfig.map((orb) => {
+      {/* 移动端背景遮罩 */}
+      {isMobile && (
+        <div className="absolute inset-0">
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(circle at 50% 40%, rgba(55, 48, 163, 0.7) 0%, rgba(30, 58, 138, 0.5) 35%, rgba(8, 145, 178, 0.4) 60%, transparent 90%)',
+            }}
+            initial={{ opacity: 0.8 }}
+            animate={{ 
+              opacity: [0.8, 1, 0.8],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        </div>
+      )}
+
+      {/* 大型背景球体 - 仅在桌面端显示 */}
+      {!isMobile && orbsConfig.map((orb) => {
         const anim = getOrbAnimation(orb.id);
         return (
           <motion.div
