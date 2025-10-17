@@ -22,8 +22,8 @@ interface Orb {
 // 大型背景球体配置 - 桌面端（星球主题）
 const orbsConfigDesktop: Orb[] = [
   { id: 1, size: 500, color: 'rgb(30, 58, 138)', initialX: '25%', initialY: '25%', delay: 0 },      // 深蓝色星球
-  { id: 3, size: 800, color: 'rgb(55, 48, 163)', initialX: '50%', initialY: '50%', delay: 2.7 },   // 靛蓝色星球
-  { id: 2, size: 500, color: 'rgb(8, 145, 178)', initialX: '75%', initialY: '75%', delay: 1.3 },   // 青色星球
+  { id: 3, size: 800, color: 'rgb(85, 78, 203)', initialX: '50%', initialY: '50%', delay: 2.7 },   // 靛蓝色星球（提亮）
+  { id: 2, size: 500, color: 'rgb(6, 110, 135)', initialX: '75%', initialY: '75%', delay: 1.3 },   // 青色星球（调暗）
 ];
 
 // 生成小粒子
@@ -97,11 +97,11 @@ export default function ParticleBackground() {
           <motion.div
             className="absolute inset-0"
             style={{
-              background: 'radial-gradient(circle at 50% 40%, rgba(55, 48, 163, 0.7) 0%, rgba(30, 58, 138, 0.5) 35%, rgba(8, 145, 178, 0.4) 60%, transparent 90%)',
+              background: 'radial-gradient(circle at 50% 50%, rgba(75, 68, 203, 0.8) 0%, rgba(50, 88, 168, 0.65) 35%, rgba(28, 175, 208, 0.5) 60%, transparent 90%)',
             }}
-            initial={{ opacity: 0.8 }}
+            initial={{ opacity: 0.85 }}
             animate={{ 
-              opacity: [0.8, 1, 0.8],
+              opacity: [0.85, 1, 0.85],
             }}
             transition={{
               duration: 6,
