@@ -160,7 +160,11 @@ const { navbar } = content;
     }
   }
 
-  section {
-    scroll-margin-top: 100px;
+
+  /* 移动端需要更大的滚动边距 */
+  @media (max-width: 768px) {
+    :global(section) {
+      scroll-margin-top: 100px;
+    }
   }
 </style>
