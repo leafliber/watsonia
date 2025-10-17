@@ -1,4 +1,14 @@
 ---
+/**
+ * InfoAnimated Component
+ * 
+ * 信息展示区域：
+ * - 标题区域（带下划线装饰）
+ * - 主要内容卡片
+ * - 特性卡片网格（3列布局）
+ * - 使用 AnimatedCard 组件实现交错动画
+ */
+
 import content from '../data/content.json';
 import AnimatedCard from './AnimatedCard';
 
@@ -7,6 +17,7 @@ const { info } = content;
 
 <section id="info" class="min-h-screen flex items-center justify-center px-4 py-20 relative z-10">
   <div class="max-w-6xl mx-auto w-full">
+    <!-- 标题区域 -->
     <div class="text-center mb-16">
       <h2 class="text-5xl md:text-6xl font-bold mb-4 text-gradient animate-gradient">
         {info.title}
@@ -14,12 +25,14 @@ const { info } = content;
       <div class="w-20 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
     </div>
 
+    <!-- 主要内容卡片 -->
     <div class="glass rounded-3xl p-8 md:p-12 mb-12 hover:glow-effect transition-all duration-500">
       <p class="text-xl md:text-2xl text-gray-200 leading-relaxed text-center max-w-3xl mx-auto">
         {info.content}
       </p>
     </div>
 
+    <!-- 特性卡片网格 -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       {info.features.map((feature, index) => (
         <AnimatedCard 

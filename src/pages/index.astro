@@ -1,4 +1,14 @@
 ---
+/**
+ * Homepage
+ * 
+ * 主页面，组合所有主要组件：
+ * - 固定导航栏
+ * - 自定义光标（桌面端）
+ * - 粒子背景
+ * - 主内容区域（Hero, Info, Skills, Links, Footer）
+ */
+
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
@@ -11,9 +21,12 @@ import ParticleBackground from '../components/ParticleBackground';
 ---
 
 <Layout>
+  <!-- 固定元素 -->
   <Navbar />
   <AnimatedCursor client:load />
   <ParticleBackground client:load />
+  
+  <!-- 主内容 -->
   <main class="relative">
     <Hero />
     <InfoAnimated />

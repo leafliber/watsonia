@@ -1,4 +1,14 @@
 ---
+/**
+ * Skills Component
+ * 
+ * 技能展示区域：
+ * - 标题区域（带下划线装饰）
+ * - 无限滚动的技能标签（跑马灯效果）
+ * - 悬停时暂停滚动
+ * - 三组重复内容确保无缝循环
+ */
+
 import content from '../data/content.json';
 
 const { skills } = content;
@@ -6,14 +16,15 @@ const { skills } = content;
 
 <section id="skills" class="py-20 px-4 overflow-hidden relative z-10">
   <div class="max-w-6xl mx-auto mb-12">
+    <!-- 标题区域 -->
     <h2 class="text-5xl md:text-6xl font-bold text-center mb-4 text-gradient animate-gradient">
       {skills.title}
     </h2>
     <div class="w-20 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
   </div>
 
+  <!-- 跑马灯容器 -->
   <div class="relative">
-    <!-- Marquee container -->
     <div class="marquee-container">
       <div class="marquee-content" id="marquee-content">
         {/* 第一组 */}
@@ -24,6 +35,7 @@ const { skills } = content;
             </span>
           </div>
         ))}
+        
         {/* 第二组 - 无缝循环 */}
         {skills.items.map((skill) => (
           <div class="marquee-item glass rounded-full px-8 py-4 mx-3 hover:glow-effect transition-all duration-300 hover:scale-110 group">
@@ -32,6 +44,7 @@ const { skills } = content;
             </span>
           </div>
         ))}
+        
         {/* 第三组 - 防止穿帮 */}
         {skills.items.map((skill) => (
           <div class="marquee-item glass rounded-full px-8 py-4 mx-3 hover:glow-effect transition-all duration-300 hover:scale-110 group">
@@ -46,7 +59,9 @@ const { skills } = content;
 </section>
 
 <script>
-  // 确保动画从正确的位置开始
+  /**
+   * 确保动画从正确的位置开始
+   */
   document.addEventListener('DOMContentLoaded', () => {
     const marqueeContent = document.getElementById('marquee-content');
     if (marqueeContent) {
@@ -60,11 +75,16 @@ const { skills } = content;
 </script>
 
 <style>
+  /* ========================================
+     跑马灯容器
+     ======================================== */
   .marquee-container {
     position: relative;
     width: 100%;
     overflow: hidden;
     padding: 20px 0;
+    
+    /* 渐变遮罩：左右两侧淡出 */
     mask-image: linear-gradient(
       to right,
       transparent,
@@ -81,6 +101,9 @@ const { skills } = content;
     );
   }
 
+  /* ========================================
+     跑马灯内容
+     ======================================== */
   .marquee-content {
     display: flex;
     animation: marquee 30s linear infinite;
@@ -88,6 +111,7 @@ const { skills } = content;
     will-change: transform;
   }
 
+  /* 悬停时暂停 */
   .marquee-content:hover {
     animation-play-state: paused;
   }
@@ -96,29 +120,40 @@ const { skills } = content;
     flex-shrink: 0;
   }
 
+  /* ========================================
+     跑马灯动画
+     ======================================== */
   @keyframes marquee {
     from {
       transform: translateX(0);
     }
     to {
+      /* 移动 1/3（因为有3组重复内容） */
       transform: translateX(-33.333%);
     }
   }
 
+  /* ========================================
+     响应式调整
+     ======================================== */
   @media (max-width: 768px) {
     .marquee-content {
       animation-duration: 20s;
     }
   }
 
-  /* 确保在页面加载时动画已经开始 */
+  /* ========================================
+     无障碍优化
+     ======================================== */
+  
+  /* 默认：动画运行 */
   @media (prefers-reduced-motion: no-preference) {
     .marquee-content {
       animation-play-state: running;
     }
   }
 
-  /* 减少动态效果以提升性能 */
+  /* 用户偏好：减少动态效果 */
   @media (prefers-reduced-motion: reduce) {
     .marquee-content {
       animation: none;

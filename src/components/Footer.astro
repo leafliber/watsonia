@@ -1,4 +1,14 @@
 ---
+/**
+ * Footer Component
+ * 
+ * 页脚区域：
+ * - 版权信息（含外部链接）
+ * - 页脚导航链接
+ * - 回到顶部按钮
+ * - 响应式布局
+ */
+
 import content from '../data/content.json';
 
 const { footer } = content;
@@ -8,7 +18,8 @@ const currentYear = new Date().getFullYear();
 <footer class="py-12 px-4 border-t border-white/10 relative z-10">
   <div class="max-w-6xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-center md:text-left">
+      <!-- 版权信息 -->
+      <div class="text-center md:text-left">
         <p class="text-gray-200">
           © {currentYear} 
           <a 
@@ -41,6 +52,7 @@ const currentYear = new Date().getFullYear();
         </p>
       </div>
       
+      <!-- 页脚导航 -->
       <div class="flex gap-6">
         {footer.links.map((link) => (
           <a 
@@ -53,7 +65,7 @@ const currentYear = new Date().getFullYear();
       </div>
     </div>
 
-    <!-- Back to top button -->
+    <!-- 回到顶部按钮 -->
     <div class="mt-8 text-center">
       <a 
         href="#hero" 

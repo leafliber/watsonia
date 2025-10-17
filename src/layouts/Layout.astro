@@ -1,7 +1,19 @@
 ---
+/**
+ * Base Layout
+ * 
+ * 页面基础布局，包含：
+ * - HTML 文档结构
+ * - Meta 标签配置
+ * - 外部资源预连接
+ * - 移动浏览器主题色
+ * - 全局样式导入
+ */
+
 import content from '../data/content.json';
 
 interface Props {
+  /** 页面标题（默认使用站点标题） */
   title?: string;
 }
 
@@ -12,19 +24,21 @@ const { title = site.title } = Astro.props;
 <!doctype html>
 <html lang={site.lang}>
   <head>
+    <!-- 基础元数据 -->
     <meta charset="UTF-8" />
     <meta name="description" content={site.description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Preconnect to external resources for performance -->
+    <!-- 性能优化：预连接外部资源 -->
     <link rel="preconnect" href="https://api.iconify.design" crossorigin />
     <link rel="dns-prefetch" href="https://api.iconify.design" />
     
-    <!-- Theme color for mobile browsers -->
+    <!-- 移动端主题色 -->
     <meta name="theme-color" content="#9333ea" />
     
+    <!-- 页面标题 -->
     <title>{title}</title>
   </head>
   <body>

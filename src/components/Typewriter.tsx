@@ -1,132 +1,191 @@
-import { useEffect, useState, useRef } from 'react';
+/**
+ * Typewriter Component
+ * 
+ * 打字机效果组件：
+ * - 支持多个单词循环显示
+ * - 可配置打字/删除速度、停顿时长
+ * - 支持单次循环模式（loopOnce）
+ * - 带有可配置的闪烁光标
+ * 
+ * @example
+ * <Typewriter 
+ *   words={['Hello', 'World']} 
+ *   typingSpeed={100}
+ *   deletingSpeed={50}
+ *   pauseDuration={2000}
+ *   loopOnce={true}
+ * />
+ */
+
+import { useState, useEffect, useRef } from 'react';
+
+// ============================================================================
+// Types
+// ============================================================================
 
 interface TypewriterProps {
-  text: string | string[];
+  /** 要显示的单词数组 */
+  words: string[];
+  
+  /** 打字速度（毫秒/字符） */
   typingSpeed?: number;
+  
+  /** 删除速度（毫秒/字符） */
   deletingSpeed?: number;
+  
+  /** 打完单词后的停顿时间（毫秒） */
   pauseDuration?: number;
-  loop?: boolean;
-  loopOnce?: boolean; // 播放完一遍后停在第一句
-  showCursor?: boolean;
-  cursorCharacter?: string;
-  cursorBlinkDuration?: number;
+  
+  /** 删除完单词后的停顿时间（毫秒，默认使用 pauseDuration） */
+  deletePauseDuration?: number;
+  
+  /** 光标字符 */
+  cursorChar?: string;
+  
+  /** 光标闪烁速度（毫秒） */
+  cursorBlinkSpeed?: number;
+  
+  /** 自定义 CSS 类名 */
   className?: string;
-  cursorClassName?: string;
+  
+  /** 完成回调函数 */
+  onComplete?: () => void;
+  
+  /** 是否只循环一次后停在第一个单词 */
+  loopOnce?: boolean;
 }
 
+// ============================================================================
+// Main Component
+// ============================================================================
+
 export default function Typewriter({
-  text,
-  typingSpeed = 75,
+  words,
+  typingSpeed = 100,
   deletingSpeed = 50,
   pauseDuration = 1500,
-  loop = true,
-  loopOnce = false,
-  showCursor = true,
-  cursorCharacter = '_',
-  cursorBlinkDuration = 0.5,
+  deletePauseDuration,
+  cursorChar = '|',
+  cursorBlinkSpeed = 500,
   className = '',
-  cursorClassName = '',
+  onComplete,
+  loopOnce = false,
 }: TypewriterProps) {
+  // 状态管理
   const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [wordIndex, setWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [hasCompletedOnce, setHasCompletedOnce] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const [showCursor, setShowCursor] = useState(true);
+  const [shouldStop, setShouldStop] = useState(false);
+  
+  // 定时器引用
+  const timeoutRef = useRef<NodeJS.Timeout>();
+  const cursorIntervalRef = useRef<NodeJS.Timeout>();
 
-  const texts = Array.isArray(text) ? text : [text];
+  // 删除后停顿时间
+  const deletePause = deletePauseDuration ?? pauseDuration;
 
+  /**
+   * 主打字机逻辑
+   * 状态机：打字 → 停顿 → 删除 → 停顿 → 下一个单词
+   */
   useEffect(() => {
-    const currentText = texts[currentIndex];
+    // 如果已停止且文字已显示完整，直接返回
+    if (shouldStop && displayText === words[0]) {
+      return;
+    }
 
-    const handleTyping = () => {
-      // 如果是 loopOnce 模式且已完成一遍，停留在第一句
-      if (loopOnce && hasCompletedOnce && currentIndex === 0 && displayText === texts[0]) {
+    const currentWord = words[wordIndex];
+    
+    // 正在打字
+    if (!isDeleting && displayText.length < currentWord.length) {
+      timeoutRef.current = setTimeout(() => {
+        setDisplayText(currentWord.slice(0, displayText.length + 1));
+      }, typingSpeed);
+    }
+    // 打字完成，准备删除
+    else if (!isDeleting && displayText.length === currentWord.length) {
+      // 如果是停止状态，不要删除，保持显示
+      if (shouldStop) {
         return;
       }
-
-      if (isPaused) {
+      
+      timeoutRef.current = setTimeout(() => {
+        setIsDeleting(true);
+      }, pauseDuration);
+    }
+    // 正在删除
+    else if (isDeleting && displayText.length > 0) {
+      timeoutRef.current = setTimeout(() => {
+        setDisplayText(displayText.slice(0, -1));
+      }, deletingSpeed);
+    }
+    // 删除完成，切换到下一个单词
+    else if (isDeleting && displayText.length === 0) {
+      const nextIndex = (wordIndex + 1) % words.length;
+      
+      // loopOnce 模式：完成一轮后停止并打字显示第一个单词
+      if (loopOnce && nextIndex === 0 && wordIndex === words.length - 1) {
         timeoutRef.current = setTimeout(() => {
-          setIsPaused(false);
-          // 检查是否是最后一个文本
-          const isLastText = currentIndex === texts.length - 1;
-          if (loopOnce && isLastText) {
-            // 播放完最后一个，标记为完成并返回第一个
-            setHasCompletedOnce(true);
-            setIsDeleting(true);
-          } else {
-            setIsDeleting(true);
-          }
-        }, pauseDuration);
-        return;
-      }
-
-      if (!isDeleting) {
-        // Typing
-        if (displayText.length < currentText.length) {
-          setDisplayText(currentText.slice(0, displayText.length + 1));
-          timeoutRef.current = setTimeout(handleTyping, typingSpeed);
-        } else {
-          // Finished typing
-          if (texts.length > 1 && (loop || (loopOnce && !hasCompletedOnce))) {
-            setIsPaused(true);
-            timeoutRef.current = setTimeout(handleTyping, pauseDuration);
-          }
-        }
-      } else {
-        // Deleting
-        if (displayText.length > 0) {
-          setDisplayText(displayText.slice(0, -1));
-          timeoutRef.current = setTimeout(handleTyping, deletingSpeed);
-        } else {
-          // Finished deleting
           setIsDeleting(false);
-          const nextIndex = (currentIndex + 1) % texts.length;
-          setCurrentIndex(nextIndex);
-          
-          // 如果 loopOnce 模式且回到第一个，开始打字第一句
-          if (loopOnce && nextIndex === 0 && hasCompletedOnce) {
-            // 不再继续循环
-            return;
-          }
-        }
+          setWordIndex(0);
+          setShouldStop(true);
+          if (onComplete) onComplete();
+        }, deletePause);
+      } else {
+        timeoutRef.current = setTimeout(() => {
+          setIsDeleting(false);
+          setWordIndex(nextIndex);
+        }, deletePause);
       }
-    };
-
-    timeoutRef.current = setTimeout(handleTyping, isDeleting ? deletingSpeed : typingSpeed);
+    }
 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [displayText, currentIndex, isDeleting, isPaused, hasCompletedOnce, texts, typingSpeed, deletingSpeed, pauseDuration, loop, loopOnce]);
+  }, [
+    displayText,
+    wordIndex,
+    isDeleting,
+    shouldStop,
+    words,
+    typingSpeed,
+    deletingSpeed,
+    pauseDuration,
+    deletePause,
+    loopOnce,
+    onComplete,
+  ]);
+
+  /**
+   * 光标闪烁效果
+   */
+  useEffect(() => {
+    cursorIntervalRef.current = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, cursorBlinkSpeed);
+
+    return () => {
+      if (cursorIntervalRef.current) {
+        clearInterval(cursorIntervalRef.current);
+      }
+    };
+  }, [cursorBlinkSpeed]);
 
   return (
-    <>
-      <span className={className}>
-        {displayText}
-        {showCursor && (
-          <span
-            className={`inline-block ${cursorClassName}`}
-            style={{
-              animation: `blink ${cursorBlinkDuration}s infinite`,
-            }}
-          >
-            {cursorCharacter}
-          </span>
-        )}
+    <span className={className}>
+      {displayText}
+      <span
+        className="inline-block"
+        style={{
+          opacity: showCursor ? 1 : 0,
+          transition: 'opacity 0.1s',
+        }}
+      >
+        {cursorChar}
       </span>
-      <style>{`
-        @keyframes blink {
-          0%, 50% {
-            opacity: 1;
-          }
-          51%, 100% {
-            opacity: 0;
-          }
-        }
-      `}</style>
-    </>
+    </span>
   );
 }

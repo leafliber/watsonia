@@ -1,4 +1,14 @@
 ---
+/**
+ * Navbar Component
+ * 
+ * 固定导航栏组件：
+ * - 响应式设计：桌面端横向导航，移动端汉堡菜单
+ * - 滚动时添加毛玻璃背景
+ * - 平滑滚动到锚点
+ * - 移动菜单支持动画、点击外部关闭
+ */
+
 import content from '../data/content.json';
 
 const { navbar } = content;
@@ -6,13 +16,17 @@ const { navbar } = content;
 
 <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-6 navbar-container">
   <div class="max-w-6xl mx-auto">
+    <!-- 导航栏主容器 -->
     <div class="glass-navbar rounded-full px-8 py-4 flex items-center justify-between relative isolate navbar-expand">
-      <!-- Logo/Brand -->
-      <a href="#hero" class="text-xl font-bold text-gradient hover:scale-105 transition-transform duration-300 relative z-10 navbar-logo">
+      <!-- Logo/品牌 -->
+      <a 
+        href="#hero" 
+        class="text-xl font-bold text-gradient hover:scale-105 transition-transform duration-300 relative z-10 navbar-logo"
+      >
         {navbar.brand}
       </a>
 
-      <!-- Desktop Navigation -->
+      <!-- 桌面端导航菜单 -->
       <ul class="hidden md:flex items-center gap-8 relative z-10 navbar-menu">
         {navbar.items.map((item, index) => (
           <li class="navbar-item" style={`animation-delay: ${0.5 + index * 0.1}s`}>
@@ -27,7 +41,7 @@ const { navbar } = content;
         ))}
       </ul>
 
-      <!-- Mobile Menu Button -->
+      <!-- 移动端菜单按钮 -->
       <button 
         id="mobile-menu-button"
         class="md:hidden text-gray-200 hover:text-white transition-colors p-2 relative z-10 navbar-logo"
@@ -39,7 +53,7 @@ const { navbar } = content;
       </button>
     </div>
 
-    <!-- Mobile Menu -->
+    <!-- 移动端下拉菜单 -->
     <div 
       id="mobile-menu"
       class="hidden md:hidden mt-3 glass-navbar rounded-3xl px-6 py-4 relative isolate mobile-menu"
@@ -62,40 +76,62 @@ const { navbar } = content;
 </nav>
 
 <script>
-  // Mobile menu open/close with animation
+  /**
+   * 移动菜单开关动画
+   */
   const menuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
-  const ANIM_DURATION = 260; // ms, should match CSS animation-duration
+  const ANIM_DURATION = 260; // 毫秒，需与 CSS 动画时长一致
 
+  /**
+   * 打开菜单：显示 + 播放入场动画
+   */
   const openMenu = () => {
     if (!mobileMenu) return;
+    
     mobileMenu.classList.remove('hidden');
     mobileMenu.setAttribute('aria-hidden', 'false');
     mobileMenu.classList.remove('menu-closing');
-    // force reflow to ensure animation restarts
+    
+    // 强制重排以确保动画重新开始
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     mobileMenu.offsetHeight;
+    
     mobileMenu.classList.add('menu-open');
   };
 
+  /**
+   * 关闭菜单：播放退出动画 + 隐藏
+   */
   const closeMenu = () => {
     if (!mobileMenu) return;
+    
     mobileMenu.classList.remove('menu-open');
     mobileMenu.classList.add('menu-closing');
     mobileMenu.setAttribute('aria-hidden', 'true');
+    
     setTimeout(() => {
       mobileMenu.classList.add('hidden');
       mobileMenu.classList.remove('menu-closing');
     }, ANIM_DURATION);
   };
 
+  /**
+   * 按钮点击切换菜单
+   */
   menuButton?.addEventListener('click', () => {
     if (!mobileMenu) return;
-    if (mobileMenu.classList.contains('hidden')) openMenu();
-    else closeMenu();
+    
+    if (mobileMenu.classList.contains('hidden')) {
+      openMenu();
+    } else {
+      closeMenu();
+    }
   });
 
-  // Close mobile menu when clicking a link (with animation)
+  /**
+   * 点击菜单链接时关闭菜单
+   */
   const mobileLinks = mobileMenu?.querySelectorAll('a');
   mobileLinks?.forEach(link => {
     link.addEventListener('click', () => {
@@ -103,11 +139,13 @@ const { navbar } = content;
     });
   });
 
-  // Close mobile menu when clicking outside
+  /**
+   * 点击外部区域关闭菜单
+   */
   document.addEventListener('click', (e: MouseEvent) => {
     if (!mobileMenu || !menuButton) return;
     
-    // 如果菜单是隐藏的，不需要处理
+    // 菜单已隐藏则不处理
     if (mobileMenu.classList.contains('hidden')) return;
     
     // 检查点击是否在菜单或按钮外部
@@ -117,12 +155,16 @@ const { navbar } = content;
     }
   });
 
-  // Smooth scroll for all nav links
+  /**
+   * 平滑滚动到锚点
+   */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e: Event) {
       e.preventDefault();
+      
       const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
       const target = href ? document.querySelector(href) : null;
+      
       if (target) {
         target.scrollIntoView({
           behavior: 'smooth',
@@ -132,7 +174,9 @@ const { navbar } = content;
     });
   });
 
-  // Add navbar background on scroll
+  /**
+   * 滚动时添加毛玻璃背景
+   */
   const nav = document.querySelector('nav');
   
   window.addEventListener('scroll', () => {
@@ -147,6 +191,9 @@ const { navbar } = content;
 </script>
 
 <style>
+  /* ========================================
+     导航栏过渡效果
+     ======================================== */
   nav {
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -155,12 +202,18 @@ const { navbar } = content;
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* 滚动后的毛玻璃效果 */
   nav.scrolled .glass-navbar {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(16px);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   }
 
+  /* ========================================
+     入场动画
+     ======================================== */
+  
+  /* 导航栏从中心展开 */
   .navbar-expand {
     animation: expandFromCenter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     transform-origin: center;
@@ -180,16 +233,19 @@ const { navbar } = content;
     }
   }
 
+  /* Logo 淡入 */
   .navbar-logo {
     animation: fadeIn 0.4s ease-out 0.3s forwards;
     opacity: 0;
   }
 
+  /* 菜单淡入 */
   .navbar-menu {
     animation: fadeIn 0.4s ease-out 0.4s forwards;
     opacity: 0;
   }
 
+  /* 菜单项交错上移淡入 */
   .navbar-item {
     animation: fadeInUp 0.4s ease-out forwards;
     opacity: 0;
@@ -206,7 +262,9 @@ const { navbar } = content;
     }
   }
 
-  /* Mobile menu open/close animations */
+  /* ========================================
+     移动端菜单动画
+     ======================================== */
   .mobile-menu {
     transform-origin: top center;
     will-change: opacity, transform;
@@ -242,8 +300,9 @@ const { navbar } = content;
     }
   }
 
-
-  /* 移动端需要更大的滚动边距 */
+  /* ========================================
+     移动端滚动边距
+     ======================================== */
   @media (max-width: 768px) {
     :global(section) {
       scroll-margin-top: 100px;

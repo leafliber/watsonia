@@ -1,4 +1,14 @@
 ---
+/**
+ * Hero Component
+ * 
+ * 首屏主视觉区域：
+ * - 大标题打字机效果
+ * - 副标题和描述文字
+ * - CTA 按钮（了解更多）
+ * - 交错入场动画
+ */
+
 import content from '../data/content.json';
 import Typewriter from './Typewriter';
 
@@ -7,37 +17,49 @@ const { hero } = content;
 
 <section id="hero" class="min-h-screen flex items-center justify-center px-4 py-20 relative">
   <div class="max-w-5xl mx-auto text-center relative z-10">
+    <!-- 主标题：打字机效果 -->
     <div class="animate-slide-down">
-  <h1 class="text-5xl md:text-8xl font-bold mb-6 min-h-[120px] md:min-h-[180px] flex items-center justify-center">
+      <h1 class="text-5xl md:text-8xl font-bold mb-6 min-h-[120px] md:min-h-[180px] flex items-center justify-center">
         <Typewriter 
           client:load
-          text={hero.titles || [hero.title]}
-          typingSpeed={80}
+          words={hero.titles}
+          typingSpeed={100}
           deletingSpeed={50}
           pauseDuration={2000}
-          loop={false}
+          deletePauseDuration={500}
           loopOnce={true}
-          showCursor={true}
-          cursorCharacter="_"
-          cursorBlinkDuration={0.7}
+          cursorChar="_"
+          cursorBlinkSpeed={700}
           className="hero-gradient"
         />
       </h1>
     </div>
     
-    <div class="animate-slide-up" style="animation-delay: 0.2s; opacity: 0; animation-fill-mode: forwards;">
+    <!-- 副标题 -->
+    <div 
+      class="animate-slide-up" 
+      style="animation-delay: 0.2s; opacity: 0; animation-fill-mode: forwards;"
+    >
       <p class="text-2xl md:text-3xl mb-4 text-gray-300 font-light">
         {hero.subtitle}
       </p>
     </div>
     
-    <div class="animate-slide-up" style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;">
+    <!-- 描述文字 -->
+    <div 
+      class="animate-slide-up" 
+      style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;"
+    >
       <p class="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
         {hero.description}
       </p>
     </div>
 
-    <div class="animate-fade-in" style="animation-delay: 0.6s; opacity: 0; animation-fill-mode: forwards;">
+    <!-- CTA 按钮 -->
+    <div 
+      class="animate-fade-in" 
+      style="animation-delay: 0.6s; opacity: 0; animation-fill-mode: forwards;"
+    >
       <a 
         href="#info" 
         class="inline-block px-8 py-4 glass rounded-full text-lg font-medium hover:glow-effect transition-all duration-300 hover:scale-105 group"

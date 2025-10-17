@@ -1,4 +1,14 @@
 ---
+/**
+ * Links Component
+ * 
+ * 外部链接区域：
+ * - 标题区域（带下划线装饰）
+ * - 响应式图标卡片网格
+ * - 悬停时图标放大和背景渐变效果
+ * - 新窗口打开链接
+ */
+
 import { Icon } from '@iconify/react';
 import content from '../data/content.json';
 
@@ -7,6 +17,7 @@ const { links } = content;
 
 <section id="links" class="py-20 px-4 relative z-10">
   <div class="max-w-6xl mx-auto">
+    <!-- 标题区域 -->
     <div class="text-center mb-16">
       <h2 class="text-5xl md:text-6xl font-bold mb-4 text-gradient animate-gradient">
         {links.title}
@@ -14,6 +25,7 @@ const { links } = content;
       <div class="w-20 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
     </div>
 
+    <!-- 链接卡片网格 -->
     <div class="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
       {links.items.map((link, index) => (
         <a
@@ -23,7 +35,10 @@ const { links } = content;
           class="glass rounded-2xl p-8 hover:glow-effect transition-all duration-500 hover:scale-105 group text-center w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] min-w-[200px] relative overflow-hidden"
           style={`animation-delay: ${index * 0.1}s;`}
         >
+          {/* 悬停时的渐变背景 */}
           <div class="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/10 group-hover:to-cyan-500/10 transition-all duration-500"></div>
+          
+          {/* 图标 */}
           <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center relative z-10">
             <Icon 
               icon={link.icon}
@@ -31,6 +46,8 @@ const { links } = content;
               client:load
             />
           </div>
+          
+          {/* 链接名称 */}
           <h3 class="text-xl font-semibold text-gray-100 group-hover:text-white transition-colors duration-300 relative z-10">
             {link.name}
           </h3>
