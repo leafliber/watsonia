@@ -42,7 +42,8 @@ const { navbar } = content;
     <!-- Mobile Menu -->
     <div 
       id="mobile-menu"
-      class="hidden md:hidden mt-3 glass-navbar rounded-3xl px-6 py-4 animate-slide-down relative isolate"
+      class="hidden md:hidden mt-3 glass-navbar rounded-3xl px-6 py-4 relative isolate mobile-menu"
+      aria-hidden="true"
     >
       <ul class="flex flex-col gap-4">
         {navbar.items.map((item) => (
@@ -61,19 +62,44 @@ const { navbar } = content;
 </nav>
 
 <script>
-  // Mobile menu toggle
+  // Mobile menu open/close with animation
   const menuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
-  
+  const ANIM_DURATION = 260; // ms, should match CSS animation-duration
+
+  const openMenu = () => {
+    if (!mobileMenu) return;
+    mobileMenu.classList.remove('hidden');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    mobileMenu.classList.remove('menu-closing');
+    // force reflow to ensure animation restarts
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    mobileMenu.offsetHeight;
+    mobileMenu.classList.add('menu-open');
+  };
+
+  const closeMenu = () => {
+    if (!mobileMenu) return;
+    mobileMenu.classList.remove('menu-open');
+    mobileMenu.classList.add('menu-closing');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    setTimeout(() => {
+      mobileMenu.classList.add('hidden');
+      mobileMenu.classList.remove('menu-closing');
+    }, ANIM_DURATION);
+  };
+
   menuButton?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
+    if (!mobileMenu) return;
+    if (mobileMenu.classList.contains('hidden')) openMenu();
+    else closeMenu();
   });
 
-  // Close mobile menu when clicking a link
+  // Close mobile menu when clicking a link (with animation)
   const mobileLinks = mobileMenu?.querySelectorAll('a');
   mobileLinks?.forEach(link => {
     link.addEventListener('click', () => {
-      mobileMenu?.classList.add('hidden');
+      closeMenu();
     });
   });
 
@@ -108,11 +134,17 @@ const { navbar } = content;
 
 <style>
   nav {
-    transition: all 0.3s ease;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-navbar {
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   nav.scrolled .glass-navbar {
     background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   }
 
   .navbar-expand {
@@ -157,6 +189,42 @@ const { navbar } = content;
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  /* Mobile menu open/close animations */
+  .mobile-menu {
+    transform-origin: top center;
+    will-change: opacity, transform;
+  }
+
+  .menu-open {
+    animation: mobileMenuOpen 260ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .menu-closing {
+    animation: mobileMenuClose 260ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes mobileMenuOpen {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes mobileMenuClose {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
     }
   }
 

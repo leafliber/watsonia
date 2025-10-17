@@ -125,7 +125,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: heroGradient 20s ease-in-out infinite;
+    animation: heroGradient 30s linear infinite;
   }
 
   /* 玻璃效果 */
@@ -153,17 +153,14 @@
 
 @layer utilities {
   .animate-gradient {
-    animation: gradient 15s ease-in-out infinite;
+    animation: gradient 20s linear infinite;
   }
 }
 
 /* Animations */
 @keyframes gradient {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    background-position: 300% 50%;
   }
   100% {
     background-position: 0% 50%;
@@ -172,10 +169,7 @@
 
 @keyframes heroGradient {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    background-position: 400% 50%;
   }
   100% {
     background-position: 0% 50%;
