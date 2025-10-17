@@ -35,30 +35,21 @@ const generateParticles = (count: number): Particle[] => {
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: Math.random() * 15 + 3,
-      duration: Math.random() * 8 + 6,
-      delay: Math.random() * 3,
+      duration: Math.random() * 8 + 10, // 从 6 增加到 10，总时长 10-18秒
+      delay: Math.random() * 5,
     });
   }
   return particles;
 };
 
-// 球体动画配置（星球漂浮效果）
+// 球体动画配置（闪烁效果）
 const getOrbAnimation = (id: number) => {
   const configs = {
-    1: { x: [0, 60, -40, 0], y: [0, -50, 40, 0], scale: [1, 1.15, 0.95, 1], opacity: [0.4, 0.6, 0.4, 0.4], duration: 25 },
-    2: { x: [0, -50, 60, 0], y: [0, 50, -40, 0], scale: [1, 0.9, 1.2, 1], opacity: [0.35, 0.55, 0.45, 0.35], duration: 28 },
-    3: { x: [0, 40, -50, 0], y: [0, -40, 50, 0], scale: [1, 1.25, 0.85, 1], opacity: [0.4, 0.6, 0.4, 0.4], duration: 30 },
-    4: { x: [0, -30, 40, 0], y: [0, 60, -30, 0], scale: [1, 1.1, 0.95, 1], opacity: [0.5, 0.7, 0.5, 0.5], duration: 23 },
+    1: { opacity: [0.25, 0.75, 0.25, 0.25], duration: 18 },
+    2: { opacity: [0.2, 0.7, 0.3, 0.2], duration: 20 },
+    3: { opacity: [0.25, 0.7, 0.25, 0.25], duration: 16 },
   };
   return configs[id as keyof typeof configs] || configs[1];
-};
-
-// 颜色调整函数
-const adjustColor = (color: string, factor: number): string => {
-  const rgb = color.match(/\d+/g);
-  if (!rgb) return color;
-  const [r, g, b] = rgb.map(n => Math.min(255, Math.round(Number(n) * factor)));
-  return `rgb(${r}, ${g}, ${b})`;
 };
 
 export default function ParticleBackground() {
@@ -112,34 +103,25 @@ export default function ParticleBackground() {
         </div>
       )}
 
-      {/* 大型背景球体 - 仅在桌面端显示 */}
+      {/* 大型背景球体 - 仅在桌面端显示（优化版：固定位置，仅闪烁） */}
       {!isMobile && orbsConfig.map((orb) => {
         const anim = getOrbAnimation(orb.id);
         return (
           <motion.div
             key={`orb-${orb.id}`}
             className="absolute rounded-full blur-3xl"
-            initial={{
+            style={{
               left: orb.initialX,
               top: orb.initialY,
               width: orb.size,
               height: orb.size,
               marginLeft: -orb.size / 2,
               marginTop: -orb.size / 2,
-              opacity: anim.opacity[0],
               backgroundColor: orb.color,
             }}
+            initial={{ opacity: anim.opacity[0] }}
             animate={{
-              x: anim.x,
-              y: anim.y,
-              scale: anim.scale,
               opacity: anim.opacity,
-              backgroundColor: [
-                orb.color,
-                adjustColor(orb.color, 1.2),
-                adjustColor(orb.color, 0.8),
-                orb.color,
-              ],
             }}
             transition={{
               duration: anim.duration,
@@ -158,24 +140,27 @@ export default function ParticleBackground() {
           className="absolute rounded-full bg-cyan-400/30"
           style={{
             boxShadow: '0 0 8px rgba(6, 182, 212, 0.6)',
-          }}
-          initial={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: particle.size,
             height: particle.size,
-            opacity: 0.3,
+          }}
+          initial={{
+            opacity: 0,
+            scale: 0.8,
           }}
           animate={{
-            y: [0, -30, 0],
-            opacity: [0.3, 0.7, 0.3],
-            scale: [1, 1.3, 1],
+            opacity: [0, 1, 0, 0, 1, 0],
+            scale: [0.8, 1.5, 0.8, 0.8, 1.5, 0.8],
+            x: [0, 0, 0, Math.random() * 40 - 20, Math.random() * 40 - 20, Math.random() * 40 - 20],
+            y: [0, 0, 0, Math.random() * 40 - 20, Math.random() * 40 - 20, Math.random() * 40 - 20],
           }}
           transition={{
             duration: particle.duration,
             delay: particle.delay,
             repeat: Infinity,
             ease: 'easeInOut',
+            times: [0, 0.2, 0.4, 0.5, 0.7, 0.9],
           }}
         />
       ))}
