@@ -62,7 +62,7 @@ npm run cf:deploy
 
 也可以在 Cloudflare Dashboard 连接 Git 仓库，构建命令用 `npm run build`，输出目录为 `dist`。
 
-同时可以参考官方文档：[Deploy an Astro site](https://docs.astro.build/en/guides/deploy/)
+同时可以参考官方文档，部署到其他平台：[Deploy an Astro site](https://docs.astro.build/en/guides/deploy/)
 
 ## 📝 改内容
 
