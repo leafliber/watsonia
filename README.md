@@ -1,7 +1,7 @@
 # Watsonia
 
 [![Astro v5](https://img.shields.io/badge/Astro-v5-FF5D01?logo=astro&logoColor=white)](https://astro.build/)
-[![React v18](https://img.shields.io/badge/React-v18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![React v18](https://img.shields.io/badge/React-v18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![Tailwind CSS v3](https://img.shields.io/badge/Tailwind_CSS-v3-38B2AC?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Framer Motion v11](https://img.shields.io/badge/Framer_Motion-v11-0055FF?logo=framer&logoColor=white)](https://www.framer.com/motion/)
 [![TypeScript v5](https://img.shields.io/badge/TypeScript-v5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
