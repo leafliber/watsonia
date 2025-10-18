@@ -12,6 +12,7 @@
 import content from '../data/content.json';
 
 const { footer } = content;
+const attribution = footer?.attribution as Array<{ text: string; url?: string }> | undefined;
 const currentYear = new Date().getFullYear();
 ---
 
@@ -30,25 +31,20 @@ const currentYear = new Date().getFullYear();
           >
             Watsonia.
           </a>
-          由
-          <a 
-            href="https://github.com/leafliber" 
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hover:text-cyan-400 transition-colors duration-300"
-          >
-            Leafiber
-          </a>
-          用 
-          <a 
-            href="https://astro.build" 
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hover:text-cyan-400 transition-colors duration-300"
-          >
-            Astro
-          </a>
-          构建
+          {attribution?.map((seg, idx) => (
+            seg.url ? (
+              <a
+                href={seg.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-cyan-400 transition-colors duration-300"
+              >
+                {seg.text}
+              </a>
+            ) : (
+              <span>{seg.text}</span>
+            )
+          ))}
         </p>
       </div>
       

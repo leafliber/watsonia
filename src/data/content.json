@@ -84,6 +84,13 @@
   "footer": {
     "links": [
       { "name": "鲁ICP备2020046132号-3", "url": "https://beian.miit.gov.cn/" }
+    ],
+    "attribution": [
+      { "text": "由" },
+      { "text": "Leafiber", "url": "https://github.com/leafliber" },
+      { "text": "用" },
+      { "text": "Astro", "url": "https://astro.build" },
+      { "text": "构建" }
     ]
   }
 }
