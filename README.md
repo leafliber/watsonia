@@ -12,12 +12,12 @@
 
 ## ✨ 特色
 
-- 🚀 基于 Astro 5 的静态站点，开箱就快
+- 🚀 基于 Astro 5 的静态站点，开箱即用
 - 🎨 玻璃态与渐变视觉，贴近现代 UI
 - 💫 React 动画配合 Framer Motion，流畅自然
 - �️ 自定义动态光标（`AnimatedCursor`）与粒子背景
-- ⌨️ 可配置的打字机效果（`Typewriter`）：支持 loopOnce、无初始停顿、速度可调
-- 🧩 内容完全外置在 `content.json`，改文案不碰组件
+- ⌨️ 可配置的打字机效果（`Typewriter`）：支持 loopOnce、速度可调
+- 🧩 内容完全外置在 `content.json`，改文案不动组件
 - ☁️ 一键部署到 Cloudflare Workers（`wrangler.jsonc` 已配置）
 
 ## 🛠️ 技术栈
@@ -69,11 +69,11 @@ npm run cf:deploy
 所有文案都在 `src/data/content.json`：
 
 - `site`：标题/描述/语言
-- `navbar`：品牌名与导航项
+- `navbar`：导航项
 - `hero`：标题（打字机多文本）、副标题、描述
-- `info`：关于我与功能特性（支持 Iconify 图标）
+- `info`：关于我（支持Iconify 图标）
 - `skills`：技能列表（跑马灯）
-- `links`：社交链接（Iconify 图标名）
+- `links`：社交链接（支持Iconify 图标）
 - `footer`：备案与署名
 
 Iconify 图标直接填名称即可，例如：`fa6-brands:github`、`mdi:robot-outline`、`ic:baseline-email`。
